@@ -1,0 +1,15 @@
+footer {
+    flex-grow: 0;
+}
+#footer_text {
+    color: whitesmoke;
+    font-size: 1em;
+    padding: 10px;
+}
+
+.github {
+    color: lightblue;
+}
+.github:hover {
+    color: white;
+}
