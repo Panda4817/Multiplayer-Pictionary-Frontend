@@ -2,17 +2,32 @@ import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import './Join.css'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Join = ({ location }) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const [error, setError] = useState('')
+    const [defaultRoom, setDefaultRoom] = useState('')
 
     useEffect(() => {
         const { error } = queryString.parse(location.search);
+        const { room } = queryString.parse(location.search)
         setError(error)
+        setDefaultRoom(room)
+        setRoom(room)
+        console.log(room)
+        async function fetchData() {
+            const response = await axios.get('/room');
+                setDefaultRoom(response.data.room);
+                setRoom(response.data.room);
+            
+        }
+        if (room == '' || room == undefined) {fetchData()};
         return;
     }, [error, location.search])
+
+    
 
 
     return (
@@ -59,6 +74,7 @@ const Join = ({ location }) => {
                             id="id_room" 
                             className="form-control" 
                             placeholder="Room"
+                            defaultValue={defaultRoom}
                             title="Type in a room name. Could be one that is already created and you are joining or a brand new room. Max length is 150 characters"
                             maxLength="150"
                             required

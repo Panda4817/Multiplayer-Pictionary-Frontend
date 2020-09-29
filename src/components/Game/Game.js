@@ -3,6 +3,7 @@ import queryString from 'query-string';
 import io from 'socket.io-client';
 import { Link, Redirect } from 'react-router-dom';
 import Waiting from '../Waiting/Waiting'
+import Canvas from '../Canvas/Canvas'
 
 let socket;
 
@@ -63,7 +64,32 @@ const Game = ({ location }) => {
         )
     } else if (waiting == false) {
         return (
-            <h1>Game</h1>
+            <div className="outerContainer d-flex align-items-center min-vh-100">
+            <div className="container">
+                <div className="mainHeader row justify-content-center">
+                    <div className="col-12">
+                        <h1>Info about who's drawing /  what word</h1>
+                    </div>
+                </div>
+                <div className="mainHeader row justify-content-center">
+                    <div className="col-lg-6">
+                        <p>Canvas Controls</p>
+                    </div>
+                </div>
+                <div className="row justify-content-center">
+                    <div id="canvas" className="col-lg-6">
+                        <Canvas  />
+                    </div>
+                    <div className="header col-lg-3">
+                        <h2>Participants</h2>
+                    </div>
+                    <div className="header col-lg-3">
+                        <h2>Chat</h2>
+                    </div>
+
+                </div>
+            </div>
+            </div>
         )
     }
         
