@@ -1,11 +1,24 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Canvas.css'
 
-const Canvas = () => {
+const Canvas = ({ 
+    myTurn, 
+    startDraw, 
+    endDraw, 
+    moveDraw, 
+    playerX, 
+    playerY,
+    drawStart,
+    drawEnd,
+    drawMove
+}) => {
 
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
     const [isDrawing, setIsDrawing] = useState(false)
+    const [disable, setDisable] = useState(myTurn)
+    const [x, setX] = useState(playerX)
+    const [y, setY] = useState(playerY)
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -22,31 +35,53 @@ const Canvas = () => {
         contextRef.current = context;
     }, [])
 
+    useEffect(() => {
+        if (drawStart == true) {
+            playerStart(x, y);
+        }
+        if (drawEnd == true) {
+            playerEnd();
+        }
+        if (drawMove == true) {
+            playerMove(x, y);
+        }
+    }, [x, y])
+
     const startDrawing = ({nativeEvent}) => {
+        if (disable) {
+            return;
+        }
         const {offsetX, offsetY} = nativeEvent;
         contextRef.current.beginPath()
         contextRef.current.moveTo(offsetX, offsetY)
         setIsDrawing(true)
+        startDraw(offsetX, offsetY)
     }
 
     const finishDrawing = () => {
         contextRef.current.closePath()
         setIsDrawing(false)
+        endDraw()
     }
 
     const draw = ({nativeEvent}) => {
-        if(!isDrawing){
-        return
+        if(!isDrawing || disable){
+            return;
         }
         const {offsetX, offsetY} = nativeEvent;
         contextRef.current.lineTo(offsetX, offsetY)
         contextRef.current.stroke()
+        moveDraw(offsetX, offsetY)
     }
 
     function touchstart(event) {
+         if (disable) {
+            return;
+        }
         if (event.target == Canvas) {
             event.preventDefault();
         }
+       
         const {clientX, clientY } = event.touches[0];
         const canvasDom = document.querySelector('#realCanvas').getBoundingClientRect()
         const x = clientX - canvasDom.left
@@ -54,11 +89,12 @@ const Canvas = () => {
         contextRef.current.beginPath()
         contextRef.current.moveTo(x, y)
         setIsDrawing(true)
+        startDraw(x, y)
 
     }
     function touchmove(event) { 
-        if(!isDrawing){
-            return
+        if(!isDrawing || disable){
+            return;
         }
         if (event.target == Canvas) {
             event.preventDefault();
@@ -69,10 +105,26 @@ const Canvas = () => {
         const y = clientY - canvasDom.top
         contextRef.current.lineTo(x, y)
         contextRef.current.stroke()
+        moveDraw(x, y)
     }
     function touchend() { 
         contextRef.current.closePath()
         setIsDrawing(false)
+        endDraw()
+    }
+
+    function playerStart(x, y) {
+        contextRef.current.beginPath()
+        contextRef.current.moveTo(x, y)
+    }
+    
+    function playerMove(x, y) {
+        contextRef.current.lineTo(x, y)
+        contextRef.current.stroke()
+    }
+
+    function playerEnd() {
+        contextRef.current.closePath()   
     }
 
   return (
