@@ -23,7 +23,7 @@ const Join = ({ location }) => {
                 setRoom(response.data.room);
             
         }
-        if (room == '' || room == undefined) {fetchData()};
+        if (room === '' || room === undefined) {fetchData()};
         return;
     }, [error, location.search])
 

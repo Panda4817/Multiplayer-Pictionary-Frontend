@@ -24,7 +24,7 @@ const Waiting = ({ participants, name, room, onClick }) => {
                                 }
                             }>
                                 <FontAwesomeIcon className="mr-1" icon={faCopy} />Click here to copy and share this link with friends:  
-                                 <u className="ml-1">localhost:3000/join?room={room}</u><span><br/>{successCopy == true ? 'Copied!' : null}</span></p>
+                                 <u className="ml-1">localhost:3000/join?room={room}</u><span><br/>{successCopy === true ? 'Copied!' : null}</span></p>
                             
                             
                         </div>

@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import Canvas from '../Canvas/Canvas'
 
 const Room = ({ 
     info, 
     participants, 
-    myTurn, onClick, 
+    myTurn, 
+    onClick, 
     time,
     setTime, 
     setNextTurn,
-    round, 
-    startDrawing, 
-    endDrawing, 
-    moveDrawing,
-    playerStart,
-    playerEnd,
-    playerMove
+    round,
+    setReset, 
+    canvas
 }) => {
+    const TIME = 10
     const [button, setButton] = useState('')
-    const [counter, setCounter] = useState(60);
+    const [counter, setCounter] = useState(TIME);
     useEffect(() => {
-        if (myTurn == true) {
+        if (myTurn === true) {
             setButton(() =>
             <button className="btn btn-primary btn-lg btn-block" 
             type="button"
@@ -30,20 +27,25 @@ const Room = ({
             }
             >Skip</button>)
         } else {setButton(() => '')}  
-    }, [myTurn])
+    }, [myTurn, onClick])
+    
     useEffect(() => {
-        if (time == true && counter < 60) {
-            setCounter(60);
+        if (time === true && counter < TIME) {
+            setCounter(TIME);
+            setReset(true)
             setTime(false);
-        } else if (counter == 0 && myTurn == true) {
-            setNextTurn(true);    
+        } else if (counter === 0 && myTurn === true) {
+            setNextTurn(true);
+            setReset(true)    
         }
-        else if (counter == 0) {
-            setCounter(60);
-        } else {
+        else if (counter === 0) {
+            setCounter(TIME);
+            setReset(true)
+        } 
+        else {
           counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);  
         }  
-    }, [counter, time]);
+    }, [counter, time, myTurn, setNextTurn, setTime, setReset]);
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">
@@ -68,15 +70,7 @@ const Room = ({
                 </div>
                 <div className="row justify-content-center">
                     <div id="canvas" className="col-lg-6">
-                        <Canvas 
-                        myTurn={myTurn}
-                        startDraw={startDrawing}
-                        endDraw={endDrawing}
-                        moveDraw={moveDrawing}
-                        drawStart={playerStart}
-                        drawEnd={playerEnd}
-                        drawMove={playerMove} 
-                        />
+                        {canvas}
                     </div>
                     <div className="header col-lg-3">
                         <h2>Participants</h2>

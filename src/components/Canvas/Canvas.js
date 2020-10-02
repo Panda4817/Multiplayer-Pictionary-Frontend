@@ -2,7 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import './Canvas.css'
 
 const Canvas = ({ 
-    myTurn, 
+    canvasDisable,
+    reset,
+    setReset, 
     startDraw, 
     endDraw, 
     moveDraw, 
@@ -16,7 +18,7 @@ const Canvas = ({
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
     const [isDrawing, setIsDrawing] = useState(false)
-    const [disable, setDisable] = useState(myTurn)
+    const [disable, setDisable] = useState(canvasDisable)
     const [x, setX] = useState(playerX)
     const [y, setY] = useState(playerY)
 
@@ -33,19 +35,29 @@ const Canvas = ({
         context.strokeStyle = "black"
         context.lineWidth = 5
         contextRef.current = context;
-    }, [])
+        setReset(false)
+    }, [reset, setReset])
 
     useEffect(() => {
-        if (drawStart == true) {
+        setDisable(canvasDisable);
+    }, [canvasDisable])
+
+    useEffect(() => {
+        setX(() => playerX);
+        setY(() => playerY);
+    }, [playerX, playerY])
+
+    useEffect(() => {
+        if (drawStart === true) {
             playerStart(x, y);
         }
-        if (drawEnd == true) {
+        else if (drawEnd === true) {
             playerEnd();
         }
-        if (drawMove == true) {
+        else if (drawMove === true) {
             playerMove(x, y);
         }
-    }, [x, y])
+    }, [x, y, drawEnd, drawMove, drawStart])
 
     const startDrawing = ({nativeEvent}) => {
         if (disable) {
@@ -75,10 +87,10 @@ const Canvas = ({
     }
 
     function touchstart(event) {
-         if (disable) {
+        if (disable) {
             return;
         }
-        if (event.target == Canvas) {
+        if (event.target === Canvas) {
             event.preventDefault();
         }
        
@@ -96,7 +108,7 @@ const Canvas = ({
         if(!isDrawing || disable){
             return;
         }
-        if (event.target == Canvas) {
+        if (event.target === Canvas) {
             event.preventDefault();
         }
         const {clientX, clientY } = event.touches[0];
