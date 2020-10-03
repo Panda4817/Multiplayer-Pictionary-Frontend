@@ -4,59 +4,82 @@ const Room = ({
     info, 
     participants, 
     myTurn, 
-    onClick, 
-    time,
-    setTime, 
-    setNextTurn,
+    onClick,
+    word1,
+    word2,
+    word3,
+    choosing, 
+    resetTime,
+    setResetTime, 
+    //setNextTurn,
     round,
     setReset, 
     canvas
 }) => {
-    const TIME = 10
+    const TIME = 60
     const [button, setButton] = useState('')
     const [counter, setCounter] = useState(TIME);
     useEffect(() => {
-        if (myTurn === true) {
+        if (myTurn === true && choosing === true) {
             setButton(() =>
+            <div>
+              <button className="btn btn-primary btn-lg btn-block" 
+            type="button"
+            onClick={event => {
+                    event.preventDefault();
+                    onClick(word1);
+                }
+            }
+            >{word1}</button>
             <button className="btn btn-primary btn-lg btn-block" 
             type="button"
             onClick={event => {
                     event.preventDefault();
-                    onClick();
+                    onClick(word2);
                 }
             }
-            >Skip</button>)
+            >{word2}</button>
+            <button className="btn btn-primary btn-lg btn-block" 
+            type="button"
+            onClick={event => {
+                    event.preventDefault();
+                    onClick(word3);
+                }
+            }
+            >{word3}</button>
+            </div>
+            )
         } else {setButton(() => '')}  
-    }, [myTurn, onClick])
+    }, [myTurn, onClick, choosing, word1, word2, word3])
     
     useEffect(() => {
-        if (time === true && counter < TIME) {
+        if (resetTime === true) {
+            setResetTime(false);
             setCounter(TIME);
-            setReset(true)
-            setTime(false);
-        } else if (counter === 0 && myTurn === true) {
+            setReset(true);
+        } /*else if (counter === 0) {
             setNextTurn(true);
             setReset(true)    
         }
         else if (counter === 0) {
             setCounter(TIME);
             setReset(true)
-        } 
+        } */
         else {
           counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);  
         }  
-    }, [counter, time, myTurn, setNextTurn, setTime, setReset]);
+    }, [counter, resetTime, setResetTime, setReset]);
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">
                 <div className="mainHeader row justify-content-center">
-                    <div className="col-lg-5">
+                    <div className="col-lg-4">
                         <h1>{info}</h1>
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-4">
                         {button}
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                         <h1>Time left: {counter}</h1>
                     </div>
                     <div className="col-lg-2">
