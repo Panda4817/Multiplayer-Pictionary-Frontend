@@ -10,8 +10,7 @@ const Room = ({
     word3,
     choosing, 
     resetTime,
-    setResetTime, 
-    //setNextTurn,
+    setResetTime,
     round,
     setReset, 
     canvas
@@ -65,10 +64,10 @@ const Room = ({
             setCounter(TIME);
             setReset(true)
         } */
-        else {
+        else if (choosing === false) {
           counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);  
         }  
-    }, [counter, resetTime, setResetTime, setReset]);
+    }, [counter, resetTime, setResetTime, setReset, choosing]);
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">

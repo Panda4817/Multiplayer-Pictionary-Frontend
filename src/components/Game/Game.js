@@ -16,7 +16,6 @@ const Game = ({ location }) => {
     const [waiting, setWaiting] = useState(true);
     
     const [round, setRound] = useState(1);
-    //const [nextTurn, setNextTurn] = useState(false);
     const [info, setInfo] = useState('');
     const [myTurn, setMyTurn] = useState(false);
     const [chosen, setChosen] = useState('');
@@ -30,11 +29,9 @@ const Game = ({ location }) => {
     const [gameOver, setGameOver] = useState(false);
 
     
-    const [playerStart, setPlayerStart] = useState(false);
-    const [playerEnd, setPlayerEnd] = useState(false);
-    const [playerMove, setPlayerMove] = useState(false);
-    const [x, setX] = useState('')
-    const [y, setY] = useState('')
+    const [drawType, setDrawType] = useState('');
+    const [px, setpX] = useState('')
+    const [py, setpY] = useState('')
     const [reset, setReset] = useState(false);
 
     
@@ -54,8 +51,7 @@ const Game = ({ location }) => {
         });
         
         return () => {
-            socket.emit('disconnect', room);
-
+            socket.emit('disconnect');
             socket.off();
         }
 
@@ -72,29 +68,11 @@ const Game = ({ location }) => {
         socket.on('waitingFalse', () => {
             setWaiting(false);
         })
+        socket.on('waitingTrue', () => {
+            setWaiting(true);
+        })
     }, [waiting])
 
-    /*useEffect(() => {
-        socket.on('round', () => {
-            let n = round + 1
-            if (n > 5) {
-                setGameOver(true);
-            }
-            setRound(() => n)
-        })
-    }, [round])*/
-
-    /*useEffect(() => {
-        if (nextTurn === true) {
-            setNextTurn(false);
-            console.log("turn logic started")
-            if (round > 5) {
-                setGameOver(true);
-            }
-            socket.emit('whoseTurn', {round, room}); 
-        }
-         
-    }, [nextTurn, gameOver, room, round])*/
     useEffect(() => {
         socket.on('turn', ({ chosen, round }) => {
             setRound(() => round);
@@ -117,9 +95,7 @@ const Game = ({ location }) => {
             setRound(() => round);
             setChosen(() => chosen);
             setChoosing(true)
-            setMyTurn(false);
-
-              
+            setMyTurn(false);     
         })
         socket.on('choice', ({ chosen, word1, word2, word3, round }) => {
             setRound(() => round);
@@ -133,22 +109,26 @@ const Game = ({ location }) => {
     }, [chosen])
 
     useEffect(() => {
+        if (waiting === true) {
+            return;
+        }
         if (myTurn === true) {
             if (choosing === true) {
                 setInfo(() => 'Choose a word')
             } else {
-               setInfo(() => 'Word is ' + word) 
+            setInfo(() => 'Word is ' + word) 
             }
             
-        } else {
+        } else if (chosen !== '') {
             if (choosing === true){
-                setInfo(() => chosen["name"] + ' is choosing a word')
+                setInfo(() => chosen["name"][0].toUpperCase() + chosen["name"].slice(1) + ' is choosing a word')
             } else {
-               setInfo(() => chosen["name"] + ' is drawing...') 
+            setInfo(() => chosen["name"][0].toUpperCase() + chosen["name"].slice(1) + ' is drawing...') 
             }
             
-        }
-    }, [choosing, word, myTurn, chosen])
+        }  
+        
+    }, [choosing, word, myTurn, chosen, waiting])
 
     useEffect(() => {
         socket.on('gameOver', () => {
@@ -162,41 +142,18 @@ const Game = ({ location }) => {
         })
     }, [resetTime])
 
-    /*useEffect(() => {
-        socket.on('skipped', () => {
-            setTime(true);
-        })
-    }, [time])*/
-
     useEffect(() => {
-        socket.on('startDrawing', ({ x, y}) => {
-            setPlayerStart(true)
-            setPlayerEnd(false)
-            setPlayerMove(false)
-            setX(() => x)
-            setY(()=> y)
+        socket.on('emitDrawing', ({ x, y, type }) => {
+            setDrawType(() => type);
+            setpX(x)
+            setpY(y)
         })
-        socket.on('moveDrawing', ({ x, y}) => {
-            setPlayerStart(false)
-            setPlayerEnd(false)
-            setPlayerMove(true)
-            setX(() => x)
-            setY(()=> y)
-        })
-        socket.on('endDrawing', () => {
-            setPlayerStart(false)
-            setPlayerEnd(true)
-            setPlayerMove(false)
-            setX(() => '')
-            setY(()=> '') 
-        })
-    }, [playerStart, playerMove, playerEnd])
+    }, [drawType, px, py])
 
     const gameStart = () => {
         console.log("game started")
         setWaiting(false);
         socket.emit('changeWaiting', room);
-        //setNextTurn(true)
         socket.emit('gameStart', { room, round });
         
 
@@ -204,21 +161,12 @@ const Game = ({ location }) => {
 
     const newWord = (word) => {
         socket.emit('chosenWord', { word, room, chosen, round});
-        setChoosing(false);
     }
 
-    const startDrawing = (x, y) => {
-        socket.emit('startDrawing', {"x": x, "y": y})
+    const emitDrawing = (x, y, type) => {
+            socket.emit('emitDrawing', { x, y, room, type})
+            console.log(type, x, y)
     }
-
-    const moveDrawing = (x, y) => {
-        socket.emit('moveDrawing', {"x": x, "y": y})
-    }
-
-    const endDrawing = () => {
-        socket.emit('endDrawing')
-    }
-
 
     if (error !== "" && error !== undefined) {
         return (
@@ -241,7 +189,6 @@ const Game = ({ location }) => {
             choosing={choosing}
             resetTime={resetTime}
             setResetTime={setResetTime}
-            //setNextTurn={setNextTurn}
             round={round}
             setReset={setReset}
             canvas={
@@ -249,14 +196,10 @@ const Game = ({ location }) => {
                 canvasDisable={myTurn === true ? false : true}
                 reset={reset}
                 setReset={setReset}
-                startDraw={startDrawing}
-                endDraw={endDrawing}
-                moveDraw={moveDrawing}
-                playerX={x}
-                playerY={y}
-                drawStart={playerStart}
-                drawEnd={playerEnd}
-                drawMove={playerMove}
+                emitDrawing={emitDrawing}
+                playerX={px}
+                playerY={py}
+                drawType={drawType}
                 />
             }
             />

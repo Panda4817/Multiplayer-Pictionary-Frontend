@@ -5,22 +5,18 @@ const Canvas = ({
     canvasDisable,
     reset,
     setReset, 
-    startDraw, 
-    endDraw, 
-    moveDraw, 
+    emitDrawing,
     playerX, 
     playerY,
-    drawStart,
-    drawEnd,
-    drawMove
+    drawType
 }) => {
 
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
     const [isDrawing, setIsDrawing] = useState(false)
     const [disable, setDisable] = useState(canvasDisable)
-    const [x, setX] = useState(playerX)
-    const [y, setY] = useState(playerY)
+    const [width, setWidth] = useState('')
+    const [height, setHeight] = useState('')
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -30,6 +26,8 @@ const Canvas = ({
         canvas.height = height;
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
+        setHeight(height);
+        setWidth(width);
         const context = canvas.getContext("2d")
         context.lineCap = "round"
         context.strokeStyle = "black"
@@ -43,37 +41,38 @@ const Canvas = ({
     }, [canvasDisable])
 
     useEffect(() => {
-        setX(() => playerX);
-        setY(() => playerY);
-    }, [playerX, playerY])
-
-    useEffect(() => {
-        if (drawStart === true) {
-            playerStart(x, y);
+        if (drawType === 'start') {
+            playerStart(playerX, playerY);
+            console.log("start", playerX, playerY)
         }
-        else if (drawEnd === true) {
+        else if (drawType === 'move') {
+            playerMove(playerX, playerY);
+            console.log("drag", playerX, playerY)
+        }
+        else if (drawType === 'end') {
             playerEnd();
+            console.log("end draw")
         }
-        else if (drawMove === true) {
-            playerMove(x, y);
-        }
-    }, [x, y, drawEnd, drawMove, drawStart])
+        
+    })
 
     const startDrawing = ({nativeEvent}) => {
         if (disable) {
             return;
         }
         const {offsetX, offsetY} = nativeEvent;
+        
         contextRef.current.beginPath()
         contextRef.current.moveTo(offsetX, offsetY)
         setIsDrawing(true)
-        startDraw(offsetX, offsetY)
+        emitDrawing(offsetX/width, offsetY/height, "start")
     }
 
     const finishDrawing = () => {
+        
         contextRef.current.closePath()
         setIsDrawing(false)
-        endDraw()
+        emitDrawing(0, 0, "end")
     }
 
     const draw = ({nativeEvent}) => {
@@ -81,9 +80,10 @@ const Canvas = ({
             return;
         }
         const {offsetX, offsetY} = nativeEvent;
+        
         contextRef.current.lineTo(offsetX, offsetY)
         contextRef.current.stroke()
-        moveDraw(offsetX, offsetY)
+        emitDrawing(offsetX/width, offsetY/height,"move")
     }
 
     function touchstart(event) {
@@ -98,10 +98,11 @@ const Canvas = ({
         const canvasDom = document.querySelector('#realCanvas').getBoundingClientRect()
         const x = clientX - canvasDom.left
         const y = clientY - canvasDom.top
+        
         contextRef.current.beginPath()
         contextRef.current.moveTo(x, y)
         setIsDrawing(true)
-        startDraw(x, y)
+        emitDrawing(x/width, y/height, "start")
 
     }
     function touchmove(event) { 
@@ -117,21 +118,22 @@ const Canvas = ({
         const y = clientY - canvasDom.top
         contextRef.current.lineTo(x, y)
         contextRef.current.stroke()
-        moveDraw(x, y)
+        emitDrawing(x/width, y/height, "move")
     }
     function touchend() { 
+        
         contextRef.current.closePath()
         setIsDrawing(false)
-        endDraw()
+        emitDrawing(0, 0, "end")
     }
 
     function playerStart(x, y) {
         contextRef.current.beginPath()
-        contextRef.current.moveTo(x, y)
+        contextRef.current.moveTo(x*width, y*height)
     }
     
     function playerMove(x, y) {
-        contextRef.current.lineTo(x, y)
+        contextRef.current.lineTo(x*width, y*height)
         contextRef.current.stroke()
     }
 
