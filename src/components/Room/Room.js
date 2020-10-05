@@ -15,7 +15,7 @@ const Room = ({
     setReset, 
     canvas
 }) => {
-    const TIME = 60
+    const TIME = 5
     const [button, setButton] = useState('')
     const [counter, setCounter] = useState(TIME);
     useEffect(() => {
@@ -56,15 +56,7 @@ const Room = ({
             setResetTime(false);
             setCounter(TIME);
             setReset(true);
-        } /*else if (counter === 0) {
-            setNextTurn(true);
-            setReset(true)    
-        }
-        else if (counter === 0) {
-            setCounter(TIME);
-            setReset(true)
-        } */
-        else if (choosing === false) {
+        } else if (choosing === false) {
           counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);  
         }  
     }, [counter, resetTime, setResetTime, setReset, choosing]);

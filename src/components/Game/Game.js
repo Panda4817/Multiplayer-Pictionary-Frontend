@@ -28,10 +28,7 @@ const Game = ({ location }) => {
     const [resetTime, setResetTime] = useState(false);
     const [gameOver, setGameOver] = useState(false);
 
-    
-    const [drawType, setDrawType] = useState('');
-    const [px, setpX] = useState('')
-    const [py, setpY] = useState('')
+    const [data, setData] = useState(null);
     const [reset, setReset] = useState(false);
 
     
@@ -51,6 +48,7 @@ const Game = ({ location }) => {
         });
         
         return () => {
+            
             socket.emit('disconnect');
             socket.off();
         }
@@ -142,13 +140,19 @@ const Game = ({ location }) => {
         })
     }, [resetTime])
 
-    useEffect(() => {
+    /*useEffect(() => {
         socket.on('emitDrawing', ({ x, y, type }) => {
             setDrawType(() => type);
             setpX(x)
             setpY(y)
         })
-    }, [drawType, px, py])
+    }, [drawType, px, py])*/
+
+    useEffect(() => {
+        socket.on('draw_line', function (data) {
+            setData(() => data);
+        });
+    }, [data])
 
     const gameStart = () => {
         console.log("game started")
@@ -163,10 +167,12 @@ const Game = ({ location }) => {
         socket.emit('chosenWord', { word, room, chosen, round});
     }
 
-    const emitDrawing = (x, y, type) => {
-            socket.emit('emitDrawing', { x, y, room, type})
-            console.log(type, x, y)
+    const emitDrawing = (data) => {
+        socket.emit('emitDrawing', {data, room})
+        console.log(data)
     }
+
+
 
     if (error !== "" && error !== undefined) {
         return (
@@ -197,9 +203,8 @@ const Game = ({ location }) => {
                 reset={reset}
                 setReset={setReset}
                 emitDrawing={emitDrawing}
-                playerX={px}
-                playerY={py}
-                drawType={drawType}
+                data={data}
+                waiting={waiting}
                 />
             }
             />
