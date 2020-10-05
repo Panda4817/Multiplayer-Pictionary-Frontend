@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import './Room.css'
 
 const Room = ({ 
     info, 
@@ -18,6 +21,8 @@ const Room = ({
     const TIME = 5
     const [button, setButton] = useState('')
     const [counter, setCounter] = useState(TIME);
+    const [showSpinner, setShowSpinner] = useState(false)
+
     useEffect(() => {
         if (myTurn === true && choosing === true) {
             setButton(() =>
@@ -27,6 +32,7 @@ const Room = ({
             onClick={event => {
                     event.preventDefault();
                     onClick(word1);
+                    setShowSpinner(true)
                 }
             }
             >{word1}</button>
@@ -35,6 +41,7 @@ const Room = ({
             onClick={event => {
                     event.preventDefault();
                     onClick(word2);
+                    setShowSpinner(true)
                 }
             }
             >{word2}</button>
@@ -43,12 +50,16 @@ const Room = ({
             onClick={event => {
                     event.preventDefault();
                     onClick(word3);
+                    setShowSpinner(true)
                 }
             }
             >{word3}</button>
             </div>
             )
-        } else {setButton(() => '')}  
+        } else {
+            setButton(() => '')
+            setShowSpinner(false)
+        }  
     }, [myTurn, onClick, choosing, word1, word2, word3])
     
     useEffect(() => {
@@ -65,13 +76,18 @@ const Room = ({
             <div className="container">
                 <div className="mainHeader row justify-content-center">
                     <div className="col-lg-4">
-                        <h1>{info}</h1>
+                        <h1>
+                            {info}
+                            {showSpinner ===  true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner" />) : null}
+                        </h1>
                     </div>
                     <div className="col-lg-4">
                         {button}
                     </div>
                     <div className="col-lg-2">
-                        <h1>Time left: {counter}</h1>
+                        <h1>
+                        Time left: {counter}
+                        </h1>
                     </div>
                     <div className="col-lg-2">
                         <h1>Round: {round}</h1>
