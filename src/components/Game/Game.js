@@ -27,6 +27,7 @@ const Game = ({ location }) => {
     const [points, setPoints] = useState([])
     const [resetTime, setResetTime] = useState(false);
     const [gameOver, setGameOver] = useState(false);
+    const [spinner, setSpinner] = useState(false);
 
     const [data, setData] = useState(null);
     const [reset, setReset] = useState(false);
@@ -48,7 +49,7 @@ const Game = ({ location }) => {
         });
         
         return () => {
-            
+
             socket.emit('disconnect');
             socket.off();
         }
@@ -140,19 +141,17 @@ const Game = ({ location }) => {
         })
     }, [resetTime])
 
-    /*useEffect(() => {
-        socket.on('emitDrawing', ({ x, y, type }) => {
-            setDrawType(() => type);
-            setpX(x)
-            setpY(y)
-        })
-    }, [drawType, px, py])*/
-
     useEffect(() => {
         socket.on('draw_line', function (data) {
             setData(() => data);
         });
     }, [data])
+
+    useEffect(()=> {
+        socket.on('spinner', () => {
+            setSpinner(true);
+        })
+    }, [spinner])
 
     const gameStart = () => {
         console.log("game started")
@@ -197,6 +196,7 @@ const Game = ({ location }) => {
             setResetTime={setResetTime}
             round={round}
             setReset={setReset}
+            spinner={spinner}
             canvas={
                 <Canvas
                 canvasDisable={myTurn === true ? false : true}

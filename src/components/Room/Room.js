@@ -15,7 +15,8 @@ const Room = ({
     resetTime,
     setResetTime,
     round,
-    setReset, 
+    setReset,
+    spinner,
     canvas
 }) => {
     const TIME = 5
@@ -61,6 +62,12 @@ const Room = ({
             setShowSpinner(false)
         }  
     }, [myTurn, onClick, choosing, word1, word2, word3])
+
+    useEffect(() => {
+        if (spinner == true) {
+            setShowSpinner(true);
+        }
+    }, [spinner])
     
     useEffect(() => {
         if (resetTime === true) {
@@ -77,9 +84,10 @@ const Room = ({
                 <div className="mainHeader row justify-content-center">
                     <div className="col-lg-4">
                         <h1>
-                            {info}
-                            {showSpinner ===  true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner" />) : null}
+                        {info}
+                        {showSpinner ===  true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner ml-5" />) : null}
                         </h1>
+                        
                     </div>
                     <div className="col-lg-4">
                         {button}
