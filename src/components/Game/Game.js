@@ -5,16 +5,20 @@ import { Redirect } from 'react-router-dom';
 import Waiting from '../Waiting/Waiting'
 import Room from '../Room/Room'
 import Canvas from '../Canvas/Canvas'
+import Input from '../Input/Input'
+import Messages from '../Messages/Messages'
 
 let socket;
 
 const Game = ({ location }) => {
+    // Room variables
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const [participants, updateParticipants] = useState([])
     const [error, setError] = useState('');
     const [waiting, setWaiting] = useState(true);
     
+    // Game variables
     const [round, setRound] = useState(1);
     const [info, setInfo] = useState('');
     const [myTurn, setMyTurn] = useState(false);
@@ -24,11 +28,15 @@ const Game = ({ location }) => {
     const [word2, setWord2] = useState('');
     const [word3, setWord3] = useState('');
     const [choosing, setChoosing] = useState(false);
-    const [points, setPoints] = useState([])
     const [resetTime, setResetTime] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [spinner, setSpinner] = useState(false);
 
+    // Chat variables
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState([]);
+
+    // Drawing variables
     const [data, setData] = useState(null);
     const [reset, setReset] = useState(false);
 
@@ -60,6 +68,7 @@ const Game = ({ location }) => {
         socket.on('updateUsers', (users) => {
             updateParticipants(() => users);
             console.log(participants)
+            
         })
     }, [participants])
 
@@ -153,6 +162,12 @@ const Game = ({ location }) => {
         })
     }, [spinner])
 
+    useEffect(() => {
+        socket.on('message', message => {
+          setMessages(messages => [ ...messages, message ]);
+        });
+    }, []);
+
     const gameStart = () => {
         console.log("game started")
         setWaiting(false);
@@ -171,6 +186,13 @@ const Game = ({ location }) => {
         console.log(data)
     }
 
+    const sendMessage = (event) => {
+        event.preventDefault();
+    
+        if(message) {
+          socket.emit('sendMessage', message, () => setMessage(''));
+        }
+      }
 
 
     if (error !== "" && error !== undefined) {
@@ -183,7 +205,8 @@ const Game = ({ location }) => {
         )
     } else if (waiting === false && gameOver === false) {
         return (
-            <Room 
+            <Room
+            name={name} 
             info={info}
             participants={participants}
             myTurn={myTurn}
@@ -205,6 +228,16 @@ const Game = ({ location }) => {
                 emitDrawing={emitDrawing}
                 data={data}
                 waiting={waiting}
+                />
+            }
+            messagesList={
+                <Messages messages={messages} name={name} />
+            }
+            input={
+                <Input
+                message={message} 
+                setMessage={setMessage} 
+                sendMessage={sendMessage}
                 />
             }
             />

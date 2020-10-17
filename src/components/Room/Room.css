@@ -10,3 +10,30 @@
 @keyframes spinner {
     100%   {transform: rotate(360deg)}
   }
+
+.points {
+    color: lightgreen;
+    padding-right: 20%;
+}
+
+.names {
+    color: lightcoral;
+    padding-left: 20%;
+}
+
+.me {
+    color: lightblue;
+    padding-left: 20%;
+}
+
+.chatIcon {
+    color: lightblue;
+}
+
+.timer {
+    color: rgb(240, 183, 60);
+}
+
+.round {
+    color: plum;
+}

@@ -1,0 +1,14 @@
+.messages {
+    height: 10vh;
+    overflow-y: auto;
+    overflow-x: hidden !important;
+    flex: auto;
+   
+
+}
+@media(min-width: 992px) {
+    .messages {
+        height: 35vh;
+    }
+}
+ 

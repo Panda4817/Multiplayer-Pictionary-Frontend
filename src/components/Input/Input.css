@@ -1,0 +1,27 @@
+.type_msg{
+    height: 60px !important;
+    overflow-y: auto;
+    background-color: whitesmoke !important;
+    border:0 !important;
+    color: black !important;
+  }
+  .type_msg:focus{
+    box-shadow:none !important;
+    outline:0px !important;
+  }
+  
+  .send_btn {
+    cursor: pointer;
+    background-image: none !important;
+    background-color: lightblue !important;
+    border:0 !important;
+    box-shadow:none !important;
+    color: white !important;
+  }
+
+  .send_btn:hover {
+    background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet) !important;
+    border:0 !important;
+    box-shadow:none !important;
+  }
+  

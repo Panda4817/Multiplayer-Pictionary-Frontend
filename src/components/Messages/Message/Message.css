@@ -1,0 +1,57 @@
+.img_cont_msg{
+    height: auto;
+    width: auto;
+  }
+.user_img_msg_out{
+    color: lightblue;
+    padding-right: 20%;
+  }
+  
+  .user_img_msg_in{
+    color: lightcoral;
+    padding-left: 20%;
+  }
+  
+  .msg_container_out{
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: lightblue;
+    color: black;
+    position: relative;
+    text-align: left;
+    flex-wrap: wrap;
+    max-width: 75%;
+
+  }
+  .msg_container_in{
+    margin-left: 10px;
+    border-radius: 10px;
+    background-color: lightcoral;
+    color: black;
+    position: relative;
+    text-align: left;
+    flex-wrap: wrap;
+    max-width: 75%;
+  }
+
+  .msg {
+    padding-left:  5px;
+    padding-right:  5px;
+    padding-top: 10px !important;
+  }
+ 
+  .msg_name_out {
+    position: relative;
+    bottom: -15px;
+    font-size: 10px;
+    text-align: center;
+    color: lightblue;
+  }
+  
+  .msg_name_in {
+    position: relative;
+    bottom: -15px;
+    font-size: 10px;
+    text-align: center;
+    color: lightcoral;
+  }

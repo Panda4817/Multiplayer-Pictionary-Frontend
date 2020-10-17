@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faComments } from '@fortawesome/free-solid-svg-icons';
 import './Room.css'
 
 const Room = ({ 
+    name,
     info, 
     participants, 
     myTurn, 
@@ -17,9 +19,11 @@ const Room = ({
     round,
     setReset,
     spinner,
-    canvas
+    canvas,
+    messagesList,
+    input
 }) => {
-    const TIME = 5
+    const TIME = 30
     const [button, setButton] = useState('')
     const [counter, setCounter] = useState(TIME);
     const [showSpinner, setShowSpinner] = useState(false)
@@ -64,16 +68,16 @@ const Room = ({
     }, [myTurn, onClick, choosing, word1, word2, word3])
 
     useEffect(() => {
-        if (spinner == true) {
+        if (spinner === true) {
             setShowSpinner(true);
         }
     }, [spinner])
     
     useEffect(() => {
         if (resetTime === true) {
-            setResetTime(false);
             setCounter(TIME);
             setReset(true);
+            setResetTime(false);
         } else if (choosing === false) {
           counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);  
         }  
@@ -83,7 +87,7 @@ const Room = ({
             <div className="container">
                 <div className="mainHeader row justify-content-center">
                     <div className="col-lg-4">
-                        <h1>
+                        <h1 className="text-center">
                         {info}
                         {showSpinner ===  true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner ml-5" />) : null}
                         </h1>
@@ -92,13 +96,13 @@ const Room = ({
                     <div className="col-lg-4">
                         {button}
                     </div>
-                    <div className="col-lg-2">
-                        <h1>
+                    <div className="col-lg-2 timer">
+                        <h3 className="text-center">
                         Time left: {counter}
-                        </h1>
+                        </h3>
                     </div>
-                    <div className="col-lg-2">
-                        <h1>Round: {round}</h1>
+                    <div className="col-lg-2 round">
+                        <h3 className="text-center">Round: {round}</h3>
                     </div>
                 </div>
                 <div className="mainHeader row justify-content-center">
@@ -111,11 +115,27 @@ const Room = ({
                         {canvas}
                     </div>
                     <div className="header col-lg-3">
-                        <h2>Participants</h2>
+                        <div className="row justify-content-around">
+                            <h2 className="text-center">
+                                <FontAwesomeIcon icon={faComments} className="chatIcon mr-5" />
+                                {myTurn === true ? "Guesses!" : "Guess!"}
+                            </h2>
+                        </div>
+                        {messagesList}
+                        {input}
                     </div>
                     <div className="header col-lg-3">
-                        <h2>Chat</h2>
+                        <h2 className="text-center">Current Players:</h2>
+                        {participants.map((p) => {
+                        return (
+                            <div className="row justify-content-between" key={'id' + p.id} id={'id' + p.id}>
+                                <h3 className={p.name === name ? "me" : "names" }>{p.name[0].toUpperCase() + p.name.slice(1)}</h3>
+                                <p className="lead points">{p.points}</p>
+                            </div>
+                        ) 
+                        })}
                     </div>
+                    
 
                 </div>
             </div>
