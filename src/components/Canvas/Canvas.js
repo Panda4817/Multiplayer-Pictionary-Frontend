@@ -63,7 +63,6 @@ const Canvas = ({
         const x = clientX - canvasDom.left
         const y = clientY - canvasDom.top
         let c = {'x': x, 'y': y}
-        console.log(c)
         setCurrent(() => c)
         setIsDrawing(true)
 
@@ -107,7 +106,6 @@ const Canvas = ({
         }
         
         let c = {'x': x, 'y': y}
-        console.log(c)
         setCurrent(() => c)
         setIsDrawing(true)
     }
@@ -186,7 +184,7 @@ const Canvas = ({
             );
         }
         
-    }, [data, height, width])
+    })
 
   return (
     <canvas

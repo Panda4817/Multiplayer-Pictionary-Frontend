@@ -7,6 +7,7 @@ import Room from '../Room/Room'
 import Canvas from '../Canvas/Canvas'
 import Input from '../Input/Input'
 import Messages from '../Messages/Messages'
+import PostGame from '../PostGame/PostGame'
 
 let socket;
 
@@ -46,7 +47,6 @@ const Game = ({ location }) => {
     useEffect(() => {
         const { name, room } = queryString.parse(location.search);
         setName(name.toLowerCase());
-        console.log(name)
         setRoom(room.toLowerCase());
         socket = io(ENDPOINT)
         socket.emit('join', { name, room }, (error) => {
@@ -67,7 +67,6 @@ const Game = ({ location }) => {
     useEffect(() => {
         socket.on('updateUsers', (users) => {
             updateParticipants(() => users);
-            console.log(participants)
             
         })
     }, [participants])
@@ -103,7 +102,8 @@ const Game = ({ location }) => {
             setRound(() => round);
             setChosen(() => chosen);
             setChoosing(true)
-            setMyTurn(false);     
+            setMyTurn(false);
+                 
         })
         socket.on('choice', ({ chosen, word1, word2, word3, round }) => {
             setRound(() => round);
@@ -113,6 +113,7 @@ const Game = ({ location }) => {
             setWord1(word1);
             setWord2(word2);
             setWord3(word3);
+            
         })
     }, [chosen])
 
@@ -168,9 +169,42 @@ const Game = ({ location }) => {
         });
     }, []);
 
+    useEffect(() => {
+        socket.on('reset', () => {
+            setRound(1);
+            setInfo('');
+            setMyTurn(false);
+            setChosen('');
+            setWord('');
+            setWord1('');
+            setWord2('');
+            setWord3('');
+            setChoosing(false);
+            setResetTime(false);
+            setGameOver(false);
+            setSpinner(false);
+            setData(null);
+            setReset(false);
+        })
+    })
+
     const gameStart = () => {
         console.log("game started")
         setWaiting(false);
+        setRound(1);
+        setInfo('');
+        setMyTurn(false);
+        setChosen('');
+        setWord('');
+        setWord1('');
+        setWord2('');
+        setWord3('');
+        setChoosing(false);
+        setResetTime(false);
+        setGameOver(false);
+        setSpinner(false);
+        setData(null);
+        setReset(false);
         socket.emit('changeWaiting', room);
         socket.emit('gameStart', { room, round });
         
@@ -178,12 +212,11 @@ const Game = ({ location }) => {
     }
 
     const newWord = (word) => {
-        socket.emit('chosenWord', { word, room, chosen, round});
+        socket.emit('chosenWord', { word, room });
     }
 
     const emitDrawing = (data) => {
         socket.emit('emitDrawing', {data, room})
-        console.log(data)
     }
 
     const sendMessage = (event) => {
@@ -245,7 +278,10 @@ const Game = ({ location }) => {
         )
     } else if (gameOver === true) {
         return (
-            <h1>Scores</h1>
+            <PostGame
+            participants={participants}
+            onClick={gameStart}
+            />
         )
     }
         

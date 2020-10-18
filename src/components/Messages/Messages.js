@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
-import ScrollToBottom, { useScrollToBottom } from 'react-scroll-to-bottom';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 import Message from './Message/Message';
 

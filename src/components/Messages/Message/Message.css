@@ -2,6 +2,13 @@
     height: auto;
     width: auto;
   }
+
+.admin {
+    background-color: lightgreen !important;
+}
+.admin_text {
+    color: lightgreen !important;
+}
 .user_img_msg_out{
     color: lightblue;
     padding-right: 20%;

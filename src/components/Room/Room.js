@@ -78,9 +78,12 @@ const Room = ({
             setCounter(TIME);
             setReset(true);
             setResetTime(false);
-        } else if (choosing === false) {
-          counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);  
-        }  
+        } else if (choosing === false && counter > 0) {
+            var timer  = setTimeout(() => setCounter(counter - 1), 1000);
+             
+        }
+        return () => clearTimeout(timer); 
+          
     }, [counter, resetTime, setResetTime, setReset, choosing]);
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
