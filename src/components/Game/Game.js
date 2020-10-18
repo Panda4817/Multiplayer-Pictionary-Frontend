@@ -238,6 +238,7 @@ const Game = ({ location }) => {
                 message={message} 
                 setMessage={setMessage} 
                 sendMessage={sendMessage}
+                disable={myTurn}
                 />
             }
             />

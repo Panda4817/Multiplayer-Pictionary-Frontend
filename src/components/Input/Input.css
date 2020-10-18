@@ -24,4 +24,9 @@
     border:0 !important;
     box-shadow:none !important;
   }
+
+  .send_btn:disabled:hover {
+    background-image: none !important;
+    cursor: auto;
+  }
   
