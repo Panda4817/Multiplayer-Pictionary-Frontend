@@ -19,6 +19,9 @@ const Room = ({
     round,
     setReset,
     spinner,
+    //nextTurnNow,
+    //nextTurn,
+    //gameOver,
     canvas,
     messagesList,
     input
@@ -75,16 +78,18 @@ const Room = ({
     
     useEffect(() => {
         if (resetTime === true) {
+            console.log("reset react counter", new Date().toLocaleTimeString())
             setCounter(TIME);
             setReset(true);
             setResetTime(false);
         } else if (choosing === false && counter > 0) {
-            var timer  = setTimeout(() => setCounter(counter - 1), 1000);
-             
-        }
-        return () => clearTimeout(timer); 
+            const timer  = setTimeout(() => setCounter((counter) => counter - 1), 1000);
+            return () => clearTimeout(timer); 
+        } 
+        
           
     }, [counter, resetTime, setResetTime, setReset, choosing]);
+
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">

@@ -148,8 +148,9 @@ const Game = ({ location }) => {
     useEffect(() => {
         socket.on('resetTime', () => {
             setResetTime(true)
+            console.log("reset time event received", new Date().toLocaleTimeString())
         })
-    }, [resetTime])
+    }, [])
 
     useEffect(() => {
         socket.on('draw_line', function (data) {
@@ -170,43 +171,17 @@ const Game = ({ location }) => {
     }, []);
 
     useEffect(() => {
-        socket.on('reset', () => {
-            setRound(1);
-            setInfo('');
-            setMyTurn(false);
-            setChosen('');
-            setWord('');
-            setWord1('');
-            setWord2('');
-            setWord3('');
-            setChoosing(false);
-            setResetTime(false);
+        socket.on('reset', () => {   
             setGameOver(false);
-            setSpinner(false);
-            setData(null);
-            setReset(false);
         })
     })
 
     const gameStart = () => {
         console.log("game started")
-        setWaiting(false);
-        setRound(1);
-        setInfo('');
-        setMyTurn(false);
-        setChosen('');
-        setWord('');
-        setWord1('');
-        setWord2('');
-        setWord3('');
-        setChoosing(false);
-        setResetTime(false);
         setGameOver(false);
-        setSpinner(false);
-        setData(null);
-        setReset(false);
+        setWaiting(false);
         socket.emit('changeWaiting', room);
-        socket.emit('gameStart', { room, round });
+        socket.emit('gameStart', room);
         
 
     }
@@ -253,6 +228,9 @@ const Game = ({ location }) => {
             round={round}
             setReset={setReset}
             spinner={spinner}
+            //nextTurnNow={nextTurnNow}
+            //nextTurn={nextTurn}
+            //gameOver={gameOver}
             canvas={
                 <Canvas
                 canvasDisable={myTurn === true ? false : true}
