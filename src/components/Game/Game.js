@@ -8,6 +8,7 @@ import Canvas from '../Canvas/Canvas'
 import Input from '../Input/Input'
 import Messages from '../Messages/Messages'
 import PostGame from '../PostGame/PostGame'
+import Controls from '../Controls/Controls'
 
 let socket;
 
@@ -40,6 +41,8 @@ const Game = ({ location }) => {
     // Drawing variables
     const [data, setData] = useState(null);
     const [reset, setReset] = useState(false);
+    const [colour, setColour] = useState("#000000")
+    const [lineWidth, setLineWidth] = useState(5)
 
     
     const ENDPOINT = 'localhost:5000';
@@ -173,13 +176,23 @@ const Game = ({ location }) => {
     useEffect(() => {
         socket.on('reset', () => {   
             setGameOver(false);
+            setColour("#000000")
+            setLineWidth(5)
         })
     })
+
+    useEffect(() => {
+        socket.on('clear', () => {   
+            setReset(true);
+        })
+    }, [])
 
     const gameStart = () => {
         console.log("game started")
         setGameOver(false);
         setWaiting(false);
+        setColour("#000000")
+        setLineWidth(5)
         socket.emit('changeWaiting', room);
         socket.emit('gameStart', room);
         
@@ -201,6 +214,19 @@ const Game = ({ location }) => {
           socket.emit('sendMessage', message, () => setMessage(''));
         }
       }
+    
+    const changeColour = (colour) => {
+        setColour(colour)
+    }
+
+    const changeWidth = (num) => {
+        setLineWidth(num)
+    }
+
+    const clearCanvas = () => {
+        setReset(true)
+        socket.emit('clear', room);
+    }
 
 
     if (error !== "" && error !== undefined) {
@@ -228,9 +254,14 @@ const Game = ({ location }) => {
             round={round}
             setReset={setReset}
             spinner={spinner}
-            //nextTurnNow={nextTurnNow}
-            //nextTurn={nextTurn}
-            //gameOver={gameOver}
+            controls={
+                <Controls
+                changeColour={changeColour}
+                clearCanvas={clearCanvas}
+                changeWidth={changeWidth}
+                controlsDisable={myTurn === true ? false : true}
+                />
+            }
             canvas={
                 <Canvas
                 canvasDisable={myTurn === true ? false : true}
@@ -239,6 +270,8 @@ const Game = ({ location }) => {
                 emitDrawing={emitDrawing}
                 data={data}
                 waiting={waiting}
+                colour={colour}
+                lineWidth={lineWidth}
                 />
             }
             messagesList={

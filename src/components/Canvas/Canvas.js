@@ -7,7 +7,9 @@ const Canvas = ({
     setReset, 
     emitDrawing,
     data,
-    waiting
+    waiting,
+    colour,
+    lineWidth
 }) => {
 
     const canvasRef = useRef(null)
@@ -18,15 +20,17 @@ const Canvas = ({
     const [current, setCurrent] = useState({'x': null, 'y': null});
     const [canvas, setCanvas] = useState(null)
     const [context, setContext] = useState(null)
+    const [color, setColor] = useState(colour)
+    const [line, setLineWidth] = useState(lineWidth)
 
-    const drawLine = (x0, y0, x1, y1, emit) => {
-        if (context !== null) {
+    const drawLine = (x0, y0, x1, y1, emit, c, l) => {
+        if (context !== null && reset !== true) {
             context.beginPath();
             context.moveTo(x0, y0);
             context.lineTo(x1, y1);
             context.lineCap = "round"
-            context.strokeStyle = "black"
-            context.lineWidth = 5
+            context.strokeStyle = c
+            context.lineWidth = l
             context.stroke();
             context.closePath();
         }
@@ -37,7 +41,9 @@ const Canvas = ({
                 'x0': (x0/width), 
                 'y0': (y0/height) , 
                 'x1': (x1/width), 
-                'y1': (y1/height)
+                'y1': (y1/height),
+                'c': c,
+                'l': l
             });
         }
         
@@ -86,7 +92,9 @@ const Canvas = ({
                 current.y, 
                 x,
                 y,
-                true
+                true,
+                color,
+                line
             );
         } else {
             if (event.target === Canvas) {
@@ -101,7 +109,9 @@ const Canvas = ({
                 current.y, 
                 x,
                 y,
-                true
+                true,
+                color,
+                line
             );
         }
         
@@ -114,7 +124,6 @@ const Canvas = ({
         if(!isDrawing || disable){
             return;
         }
-        setIsDrawing(false)
         let clientX;
         let clientY;
         let x, y;
@@ -129,7 +138,9 @@ const Canvas = ({
                 current.y, 
                 x,
                 y,
-                true
+                true,
+                color,
+                line
             );
         } else {
             if (event.target === Canvas) {
@@ -145,17 +156,20 @@ const Canvas = ({
                     current.y, 
                     x,
                     y,
-                    true
+                    true,
+                    color,
+                    line
                 ); 
             }
             
         }
+        setIsDrawing(false)
     }
 
     useEffect(() => {
-        let canvas = canvasRef.current;
-        const width = document.querySelector('#canvas').clientWidth;
-        const height = document.querySelector('#canvas').clientHeight;
+        var canvas = canvasRef.current
+        var width = document.querySelector('#canvas').clientWidth;
+        var height = document.querySelector('#canvas').clientHeight;
         canvas.width = width;
         canvas.height = height;
         canvas.style.width = `${width}px`;
@@ -163,28 +177,37 @@ const Canvas = ({
         setCanvas(() => canvas);
         setHeight(height);
         setWidth(width);
-        setContext(() => canvas.getContext('2d'));
-        
+        setContext(canvas.getContext('2d'));
+        setCurrent({'x': null, 'y': null})
         setReset(false)
-        
-    }, [reset, setReset, canvas, waiting])
+    }, [reset, waiting, setReset, canvas, context])
 
     useEffect(() => {
         setDisable(canvasDisable);
     }, [canvasDisable])
 
     useEffect(() => {
-        if (data !== null) {
+        if (data !== null && reset === false) {
             drawLine(
                 data.x0 * width, 
                 data.y0 * height, 
                 data.x1 * width, 
                 data.y1 * height, 
-                false
+                false,
+                data.c,
+                data.l
             );
         }
         
-    })
+    }, [data])
+
+    useEffect(() => {
+        setColor(colour)
+    }, [colour])
+
+    useEffect(() => {
+        setLineWidth(lineWidth)
+    }, [lineWidth])
 
   return (
     <canvas

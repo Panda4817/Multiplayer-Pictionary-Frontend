@@ -19,9 +19,7 @@ const Room = ({
     round,
     setReset,
     spinner,
-    //nextTurnNow,
-    //nextTurn,
-    //gameOver,
+    controls,
     canvas,
     messagesList,
     input
@@ -30,6 +28,7 @@ const Room = ({
     const [button, setButton] = useState('')
     const [counter, setCounter] = useState(TIME);
     const [showSpinner, setShowSpinner] = useState(false)
+    const [startTime, setStartTime] = useState(new Date().getTime())
 
     useEffect(() => {
         if (myTurn === true && choosing === true) {
@@ -80,16 +79,28 @@ const Room = ({
         if (resetTime === true) {
             console.log("reset react counter", new Date().toLocaleTimeString())
             setCounter(TIME);
+            setStartTime(new Date().getTime())
+            console.log("starttime", startTime)
             setReset(true);
             setResetTime(false);
         } else if (choosing === false && counter > 0) {
-            const timer  = setTimeout(() => setCounter((counter) => counter - 1), 1000);
-            return () => clearTimeout(timer); 
-        } 
+            const t = setTimeout(() => {
+                const now = new Date().getTime()
+                console.log("now", now)
+                const diff =  Math.floor((now - startTime) / 1000)
+                console.log("diff", diff)
+                if (diff > 0) {
+                    setCounter(TIME - diff)
+                }
+            }, 1000)
+            return () => clearTimeout(t);
+            
+        } else if (choosing === true) {
+            setCounter(0);
+        }
         
           
-    }, [counter, resetTime, setResetTime, setReset, choosing]);
-
+    }, [resetTime, choosing, counter, startTime, setReset, setResetTime]);
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">
@@ -113,9 +124,9 @@ const Room = ({
                         <h3 className="text-center">Round: {round}</h3>
                     </div>
                 </div>
-                <div className="mainHeader row justify-content-center">
+                <div className="mainHeader row justify-content-start">
                     <div className="col-lg-6">
-                        <p>Canvas Controls</p>
+                        {controls}
                     </div>
                 </div>
                 <div className="row justify-content-center">
