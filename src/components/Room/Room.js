@@ -104,15 +104,14 @@ const Room = ({
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">
-                <div className="mainHeader row justify-content-center">
+                <div className="mainHeader row justify-content-around">
                     <div className="col-lg-4">
                         <h1 className="text-center">
                         {info}
-                        {showSpinner ===  true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner ml-5" />) : null}
                         </h1>
-                        
                     </div>
-                    <div className="col-lg-4">
+                    {showSpinner ===  true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner mx-auto my-auto col-lg-1 p-1" />) : null}
+                    <div className="col-lg-3">
                         {button}
                     </div>
                     <div className="col-lg-2 timer">
@@ -136,9 +135,10 @@ const Room = ({
                     <div className="header col-lg-3">
                         <div className="row justify-content-around">
                             <h2 className="text-center">
-                                <FontAwesomeIcon icon={faComments} className="chatIcon mr-5" />
-                                {myTurn === true ? "Guesses!" : "Guess!"}
+                                {myTurn === true ? "Guesses " : "Guess! "}
+                                <FontAwesomeIcon icon={faComments} className="chatIcon" />
                             </h2>
+                            
                         </div>
                         {messagesList}
                         {input}

@@ -260,6 +260,7 @@ const Game = ({ location }) => {
                 clearCanvas={clearCanvas}
                 changeWidth={changeWidth}
                 controlsDisable={myTurn === true ? false : true}
+                lineWidth={lineWidth}
                 />
             }
             canvas={

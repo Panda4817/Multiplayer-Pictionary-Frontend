@@ -8,7 +8,8 @@ const Controls = ({
     changeColour,
     clearCanvas,
     changeWidth,
-    controlsDisable
+    controlsDisable,
+    lineWidth
 }) => {
     const colours = [
         "#000000", //black
@@ -32,7 +33,7 @@ const Controls = ({
     
     return (
         <>
-        <div className="row justify-content-around p-3">
+        <div className="row justify-content-around p-2">
             {colours.map((c, i) => {
                 return (
                    <button
@@ -53,7 +54,7 @@ const Controls = ({
                 )
             })}           
         </div>
-        <div className="row justify-content-around p-3">
+        <div className="row justify-content-around p-2">
             <button
             className="btn btn-outline-light btn-block col-2 mx-auto my-auto p-0"
             type="button"
@@ -88,13 +89,10 @@ const Controls = ({
             className="custom-range col-4 my-auto" 
             min="5" 
             max="50"
-            defaultValue="5"
+            defaultValue={lineWidth}
             onChange={
                 event => {
-                    if (!disable) {
-                        changeWidth(event.target.value)
-                    }
-                    
+                    changeWidth(event.target.value)   
                 }
             }
             ></input>

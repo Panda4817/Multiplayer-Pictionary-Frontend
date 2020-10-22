@@ -22,6 +22,8 @@ const Canvas = ({
     const [context, setContext] = useState(null)
     const [color, setColor] = useState(colour)
     const [line, setLineWidth] = useState(lineWidth)
+    const [resize, setResize] = useState(false)
+    const [lines, setLines] = useState([])
 
     const drawLine = (x0, y0, x1, y1, emit, c, l) => {
         if (context !== null && reset !== true) {
@@ -37,14 +39,16 @@ const Canvas = ({
         
 
         if (emit) {
-            emitDrawing({ 
+            let data = {
                 'x0': (x0/width), 
                 'y0': (y0/height) , 
                 'x1': (x1/width), 
                 'y1': (y1/height),
                 'c': c,
-                'l': l
-            });
+                'l': l 
+            }
+            setLines((lines) => [ ...lines, data ]);
+            emitDrawing(data);
         }
         
     }
@@ -179,8 +183,40 @@ const Canvas = ({
         setWidth(width);
         setContext(canvas.getContext('2d'));
         setCurrent({'x': null, 'y': null})
+        if (reset === true) {
+            setLines([])
+        }
+        if (lines) {
+            lines.map((data) => {
+                drawLine(
+                    data.x0 * width, 
+                    data.y0 * height, 
+                    data.x1 * width, 
+                    data.y1 * height, 
+                    false,
+                    data.c,
+                    data.l
+                );
+                return true;
+            })
+        }
+        setResize(false)
         setReset(false)
-    }, [reset, waiting, setReset, canvas, context])
+    }, [reset, waiting, resize, setReset, canvas, context])
+
+    useEffect(() => {
+        function handleResize() {
+          console.log('resized to: ', window.innerWidth, 'x', window.innerHeight)
+          setResize(true)
+        
+        }
+    
+        window.addEventListener('resize', handleResize)
+        return _ => {
+            window.removeEventListener('resize', handleResize)
+          
+        }
+    })
 
     useEffect(() => {
         setDisable(canvasDisable);
@@ -188,6 +224,7 @@ const Canvas = ({
 
     useEffect(() => {
         if (data !== null && reset === false) {
+            setLines((lines) => [ ...lines, data ]);
             drawLine(
                 data.x0 * width, 
                 data.y0 * height, 

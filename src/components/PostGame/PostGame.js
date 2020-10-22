@@ -32,8 +32,8 @@ const PostGame = ({ participants, onClick }) => {
         <div className="outerContainer d-flex align-items-center min-vh-100">
         <div className="container">
             <div className="mainHeader row justify-content-center">
-                <div className="col-10 text-center line">
-                    <h1 className="text-break">{winners.length > 1 ? "Winners:" : "Winner:"}</h1>
+                <div className="col-8 text-center line">
+                    <h1 className="text-break">{winners.length > 1 ? "Tie between:" : "Winner:"}</h1>
                     {winners.map((p) => {
                         return (
                         <div className="row justify-content-between" key={'id' + p.id} id={'id' + p.id}>
