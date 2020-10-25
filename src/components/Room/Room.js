@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { faComments } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
 import './Room.css'
 
-const Room = ({ 
+const Room = ({
     name,
-    info, 
-    participants, 
-    myTurn, 
+    info,
+    avatar,
+    participants,
+    myTurn,
     onClick,
     word1,
     word2,
     word3,
-    choosing, 
+    choosing,
     resetTime,
     setResetTime,
     round,
@@ -26,100 +27,100 @@ const Room = ({
 }) => {
     const TIME = 30
     const [button, setButton] = useState('')
-    const [counter, setCounter] = useState(TIME);
+    const [counter, setCounter] = useState(TIME)
     const [showSpinner, setShowSpinner] = useState(false)
     const [startTime, setStartTime] = useState(new Date().getTime())
 
     useEffect(() => {
         if (myTurn === true && choosing === true) {
             setButton(() =>
-            <div>
-              <button className="btn btn-primary btn-lg btn-block" 
-            type="button"
-            onClick={event => {
-                    event.preventDefault();
-                    onClick(word1);
-                    setShowSpinner(true)
-                }
-            }
-            >{word1}</button>
-            <button className="btn btn-primary btn-lg btn-block" 
-            type="button"
-            onClick={event => {
-                    event.preventDefault();
-                    onClick(word2);
-                    setShowSpinner(true)
-                }
-            }
-            >{word2}</button>
-            <button className="btn btn-primary btn-lg btn-block" 
-            type="button"
-            onClick={event => {
-                    event.preventDefault();
-                    onClick(word3);
-                    setShowSpinner(true)
-                }
-            }
-            >{word3}</button>
-            </div>
+                <div>
+                    <button className="btn btn-primary btn-lg btn-block"
+                        type="button"
+                        onClick={event => {
+                            event.preventDefault()
+                            onClick(word1)
+                            setShowSpinner(true)
+                        }
+                        }
+                    >{word1}</button>
+                    <button className="btn btn-primary btn-lg btn-block"
+                        type="button"
+                        onClick={event => {
+                            event.preventDefault()
+                            onClick(word2)
+                            setShowSpinner(true)
+                        }
+                        }
+                    >{word2}</button>
+                    <button className="btn btn-primary btn-lg btn-block"
+                        type="button"
+                        onClick={event => {
+                            event.preventDefault()
+                            onClick(word3)
+                            setShowSpinner(true)
+                        }
+                        }
+                    >{word3}</button>
+                </div>
             )
         } else {
             setButton(() => '')
             setShowSpinner(false)
-        }  
+        }
     }, [myTurn, onClick, choosing, word1, word2, word3])
 
     useEffect(() => {
         if (spinner === true) {
-            setShowSpinner(true);
+            setShowSpinner(true)
         }
     }, [spinner])
-    
+
     useEffect(() => {
         if (resetTime === true) {
             console.log("reset react counter", new Date().toLocaleTimeString())
-            setCounter(TIME);
+            setCounter(TIME)
             setStartTime(new Date().getTime())
             console.log("starttime", startTime)
-            setReset(true);
-            setResetTime(false);
+            setReset(true)
+            setResetTime(false)
         } else if (choosing === false && counter > 0) {
             const t = setTimeout(() => {
                 const now = new Date().getTime()
                 console.log("now", now)
-                const diff =  Math.floor((now - startTime) / 1000)
+                const diff = Math.floor((now - startTime) / 1000)
                 console.log("diff", diff)
                 if (diff > 0) {
                     setCounter(TIME - diff)
                 }
             }, 1000)
-            return () => clearTimeout(t);
-            
+            return () => clearTimeout(t)
+
         } else if (choosing === true) {
-            setCounter(0);
+            setCounter(0)
         }
-        
-          
-    }, [resetTime, choosing, counter, startTime, setReset, setResetTime]);
+
+
+    }, [resetTime, choosing, counter, startTime, setReset, setResetTime])
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">
-                <div className="mainHeader row justify-content-around">
+                <div className="row justify-content-around">
                     <div className="col-lg-4">
-                        <h1 className="text-center">
-                        {info}
+                        <h1 className="text-center mainHeader">
+                            {info}
                         </h1>
                     </div>
-                    {showSpinner ===  true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner mx-auto my-auto col-lg-1 p-1" />) : null}
+                    {showSpinner === true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner mx-auto my-auto col-lg-1 p-1" />) : null}
                     <div className="col-lg-3">
                         {button}
                     </div>
-                    <div className="col-lg-2 timer">
+                    <div className="col-lg-2 timer mainHeader">
                         <h3 className="text-center">
-                        Time left: {counter}
+                            Time left: {counter}
                         </h3>
                     </div>
-                    <div className="col-lg-2 round">
+                    <div className="col-lg-2 round mainHeader">
                         <h3 className="text-center">Round: {round}</h3>
                     </div>
                 </div>
@@ -132,34 +133,34 @@ const Room = ({
                     <div id="canvas" className="col-lg-6">
                         {canvas}
                     </div>
-                    <div className="header col-lg-3">
+                    <div className="col-lg-3">
                         <div className="row justify-content-around">
-                            <h2 className="text-center">
+                            <h2 className="mainHeader text-center">
                                 {myTurn === true ? "Guesses " : "Guess! "}
                                 <FontAwesomeIcon icon={faComments} className="chatIcon" />
                             </h2>
-                            
+
                         </div>
                         {messagesList}
                         {input}
                     </div>
-                    <div className="header col-lg-3">
-                        <h2 className="text-center">Current Players:</h2>
+                    <div className="col-lg-3">
+                        <h2 className="text-center mainHeader">Current Players:</h2>
                         {participants.map((p) => {
-                        return (
-                            <div className="row justify-content-between" key={'id' + p.id} id={'id' + p.id}>
-                                <h3 className={p.name === name ? "me" : "names" }>{p.name[0].toUpperCase() + p.name.slice(1)}</h3>
-                                <p className="lead points">{p.points}</p>
-                            </div>
-                        ) 
+                            return (
+                                <div className="row justify-content-between" key={'id' + p.id} id={'id' + p.id}>
+                                    <h3 className={p.name === name ? "me" : "names"}>{String.fromCodePoint(p.avatar)}{" " + p.name[0].toUpperCase() + p.name.slice(1)}</h3>
+                                    <p className="lead points">{p.points}</p>
+                                </div>
+                            )
                         })}
                     </div>
-                    
+
 
                 </div>
             </div>
-            </div>
+        </div>
     )
 }
 
-export default Room;
+export default Room

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import queryString from 'query-string';
-import io from 'socket.io-client';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import queryString from 'query-string'
+import io from 'socket.io-client'
+import { Redirect } from 'react-router-dom'
 import Waiting from '../Waiting/Waiting'
 import Room from '../Room/Room'
 import Canvas from '../Canvas/Canvas'
@@ -10,142 +10,145 @@ import Messages from '../Messages/Messages'
 import PostGame from '../PostGame/PostGame'
 import Controls from '../Controls/Controls'
 
-let socket;
+let socket
 
 const Game = ({ location }) => {
     // Room variables
-    const [name, setName] = useState('');
-    const [room, setRoom] = useState('');
+    const [name, setName] = useState('')
+    const [room, setRoom] = useState('')
+    const [avatar, setAvatar] = useState('')
     const [participants, updateParticipants] = useState([])
-    const [error, setError] = useState('');
-    const [waiting, setWaiting] = useState(true);
-    
+    const [error, setError] = useState('')
+    const [waiting, setWaiting] = useState(true)
+
     // Game variables
-    const [round, setRound] = useState(1);
-    const [info, setInfo] = useState('');
-    const [myTurn, setMyTurn] = useState(false);
-    const [chosen, setChosen] = useState('');
-    const [word, setWord] = useState('');
-    const [word1, setWord1] = useState('');
-    const [word2, setWord2] = useState('');
-    const [word3, setWord3] = useState('');
-    const [choosing, setChoosing] = useState(false);
-    const [resetTime, setResetTime] = useState(false);
-    const [gameOver, setGameOver] = useState(false);
-    const [spinner, setSpinner] = useState(false);
+    const [round, setRound] = useState(1)
+    const [info, setInfo] = useState('')
+    const [myTurn, setMyTurn] = useState(false)
+    const [chosen, setChosen] = useState('')
+    const [word, setWord] = useState('')
+    const [word1, setWord1] = useState('')
+    const [word2, setWord2] = useState('')
+    const [word3, setWord3] = useState('')
+    const [choosing, setChoosing] = useState(false)
+    const [resetTime, setResetTime] = useState(false)
+    const [gameOver, setGameOver] = useState(false)
+    const [spinner, setSpinner] = useState(false)
 
     // Chat variables
-    const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState('')
+    const [messages, setMessages] = useState([])
 
     // Drawing variables
-    const [data, setData] = useState(null);
-    const [reset, setReset] = useState(false);
+    const [data, setData] = useState(null)
+    const [reset, setReset] = useState(false)
     const [colour, setColour] = useState("#000000")
     const [lineWidth, setLineWidth] = useState(5)
 
-    
-    const ENDPOINT = 'localhost:5000';
-   
+
+    const ENDPOINT = 'localhost:5000'
+
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search);
-        setName(name.toLowerCase());
-        setRoom(room.toLowerCase());
+        const { name, room, avatar } = queryString.parse(location.search)
+        setName(name.toLowerCase())
+        setRoom(room.toLowerCase())
+        setAvatar(avatar)
+        console.log(avatar)
         socket = io(ENDPOINT)
-        socket.emit('join', { name, room }, (error) => {
+        socket.emit('join', { name, room, avatar }, (error) => {
             if (error !== null) {
                 setError(error)
             }
-           
-        });
-        
+
+        })
+
         return () => {
 
-            socket.emit('disconnect');
-            socket.off();
+            socket.emit('disconnect')
+            socket.off()
         }
 
     }, [ENDPOINT, location.search])
 
     useEffect(() => {
         socket.on('updateUsers', (users) => {
-            updateParticipants(() => users);
-            
+            updateParticipants(() => users)
+
         })
     }, [participants])
 
     useEffect(() => {
         socket.on('waitingFalse', () => {
-            setWaiting(false);
+            setWaiting(false)
         })
         socket.on('waitingTrue', () => {
-            setWaiting(true);
+            setWaiting(true)
         })
     }, [waiting])
 
     useEffect(() => {
         socket.on('turn', ({ chosen, round }) => {
-            setRound(() => round);
-            setChosen(() => chosen);
-            setChoosing(false);
+            setRound(() => round)
+            setChosen(() => chosen)
+            setChoosing(false)
             setWord(() => '')
-            setMyTurn(false);
+            setMyTurn(false)
         })
         socket.on('myturn', ({ chosen, word, round }) => {
-            setRound(() => round);
-            setChosen(() => chosen);
-            setChoosing(false);
+            setRound(() => round)
+            setChosen(() => chosen)
+            setChoosing(false)
             setWord(() => word)
-            setMyTurn(true);
-        })  
+            setMyTurn(true)
+        })
     }, [word])
 
     useEffect(() => {
         socket.on('choosing', ({ chosen, round }) => {
-            setRound(() => round);
-            setChosen(() => chosen);
+            setRound(() => round)
+            setChosen(() => chosen)
             setChoosing(true)
-            setMyTurn(false);
-                 
+            setMyTurn(false)
+
         })
         socket.on('choice', ({ chosen, word1, word2, word3, round }) => {
-            setRound(() => round);
-            setChosen(() => chosen);
-            setMyTurn(true);
+            setRound(() => round)
+            setChosen(() => chosen)
+            setMyTurn(true)
             setChoosing(true)
-            setWord1(word1);
-            setWord2(word2);
-            setWord3(word3);
-            
+            setWord1(word1)
+            setWord2(word2)
+            setWord3(word3)
+
         })
     }, [chosen])
 
     useEffect(() => {
         if (waiting === true) {
-            return;
+            return
         }
         if (myTurn === true) {
             if (choosing === true) {
                 setInfo(() => 'Choose a word')
             } else {
-            setInfo(() => 'Word is ' + word) 
+                setInfo(() => 'Word is ' + word)
             }
-            
+
         } else if (chosen !== '') {
-            if (choosing === true){
+            if (choosing === true) {
                 setInfo(() => chosen["name"][0].toUpperCase() + chosen["name"].slice(1) + ' is choosing a word')
             } else {
-            setInfo(() => chosen["name"][0].toUpperCase() + chosen["name"].slice(1) + ' is drawing...') 
+                setInfo(() => chosen["name"][0].toUpperCase() + chosen["name"].slice(1) + ' is drawing...')
             }
-            
-        }  
-        
+
+        }
+
     }, [choosing, word, myTurn, chosen, waiting])
 
     useEffect(() => {
         socket.on('gameOver', () => {
             setGameOver(true)
-        });
+        })
     }, [gameOver])
 
     useEffect(() => {
@@ -157,64 +160,64 @@ const Game = ({ location }) => {
 
     useEffect(() => {
         socket.on('draw_line', function (data) {
-            setData(() => data);
-        });
+            setData(() => data)
+        })
     }, [data])
 
-    useEffect(()=> {
+    useEffect(() => {
         socket.on('spinner', () => {
-            setSpinner(true);
+            setSpinner(true)
         })
     }, [spinner])
 
     useEffect(() => {
         socket.on('message', message => {
-          setMessages(messages => [ ...messages, message ]);
-        });
-    }, []);
+            setMessages(messages => [...messages, message])
+        })
+    }, [])
 
     useEffect(() => {
-        socket.on('reset', () => {   
-            setGameOver(false);
+        socket.on('reset', () => {
+            setGameOver(false)
             setColour("#000000")
             setLineWidth(5)
         })
     })
 
     useEffect(() => {
-        socket.on('clear', () => {   
-            setReset(true);
+        socket.on('clear', () => {
+            setReset(true)
         })
     }, [])
 
     const gameStart = () => {
         console.log("game started")
-        setGameOver(false);
-        setWaiting(false);
+        setGameOver(false)
+        setWaiting(false)
         setColour("#000000")
         setLineWidth(5)
-        socket.emit('changeWaiting', room);
-        socket.emit('gameStart', room);
-        
+        socket.emit('changeWaiting', room)
+        socket.emit('gameStart', room)
+
 
     }
 
     const newWord = (word) => {
-        socket.emit('chosenWord', { word, room });
+        socket.emit('chosenWord', { word, room })
     }
 
     const emitDrawing = (data) => {
-        socket.emit('emitDrawing', {data, room})
+        socket.emit('emitDrawing', { data, room })
     }
 
     const sendMessage = (event) => {
-        event.preventDefault();
-    
-        if(message) {
-          socket.emit('sendMessage', message, () => setMessage(''));
+        event.preventDefault()
+
+        if (message) {
+            socket.emit('sendMessage', message, () => setMessage(''))
         }
-      }
-    
+    }
+
     const changeColour = (colour) => {
         setColour(colour)
     }
@@ -225,7 +228,7 @@ const Game = ({ location }) => {
 
     const clearCanvas = () => {
         setReset(true)
-        socket.emit('clear', room);
+        socket.emit('clear', room)
     }
 
 
@@ -235,68 +238,69 @@ const Game = ({ location }) => {
         )
     } else if (waiting === true) {
         return (
-          <Waiting participants={participants} name={name} room={room} onClick={gameStart}/>  
+            <Waiting participants={participants} name={name} room={room} avatar={avatar} onClick={gameStart} />
         )
     } else if (waiting === false && gameOver === false) {
         return (
             <Room
-            name={name} 
-            info={info}
-            participants={participants}
-            myTurn={myTurn}
-            onClick={newWord}
-            word1={word1}
-            word2={word2}
-            word3={word3}
-            choosing={choosing}
-            resetTime={resetTime}
-            setResetTime={setResetTime}
-            round={round}
-            setReset={setReset}
-            spinner={spinner}
-            controls={
-                <Controls
-                changeColour={changeColour}
-                clearCanvas={clearCanvas}
-                changeWidth={changeWidth}
-                controlsDisable={myTurn === true ? false : true}
-                lineWidth={lineWidth}
-                />
-            }
-            canvas={
-                <Canvas
-                canvasDisable={myTurn === true ? false : true}
-                reset={reset}
+                name={name}
+                info={info}
+                avatar={avatar}
+                participants={participants}
+                myTurn={myTurn}
+                onClick={newWord}
+                word1={word1}
+                word2={word2}
+                word3={word3}
+                choosing={choosing}
+                resetTime={resetTime}
+                setResetTime={setResetTime}
+                round={round}
                 setReset={setReset}
-                emitDrawing={emitDrawing}
-                data={data}
-                waiting={waiting}
-                colour={colour}
-                lineWidth={lineWidth}
-                />
-            }
-            messagesList={
-                <Messages messages={messages} name={name} />
-            }
-            input={
-                <Input
-                message={message} 
-                setMessage={setMessage} 
-                sendMessage={sendMessage}
-                disable={myTurn}
-                />
-            }
+                spinner={spinner}
+                controls={
+                    <Controls
+                        changeColour={changeColour}
+                        clearCanvas={clearCanvas}
+                        changeWidth={changeWidth}
+                        controlsDisable={myTurn === true ? false : true}
+                        lineWidth={lineWidth}
+                    />
+                }
+                canvas={
+                    <Canvas
+                        canvasDisable={myTurn === true ? false : true}
+                        reset={reset}
+                        setReset={setReset}
+                        emitDrawing={emitDrawing}
+                        data={data}
+                        waiting={waiting}
+                        colour={colour}
+                        lineWidth={lineWidth}
+                    />
+                }
+                messagesList={
+                    <Messages messages={messages} name={name} avatar={avatar} />
+                }
+                input={
+                    <Input
+                        message={message}
+                        setMessage={setMessage}
+                        sendMessage={sendMessage}
+                        disable={myTurn}
+                    />
+                }
             />
         )
     } else if (gameOver === true) {
         return (
             <PostGame
-            participants={participants}
-            onClick={gameStart}
+                participants={participants}
+                onClick={gameStart}
             />
         )
     }
-        
+
 }
 
 export default Game

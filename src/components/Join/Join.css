@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
 .outerContainer {
   background-color: black;
 }
@@ -8,7 +9,10 @@
 
 .mainHeader {
   color: white;
-  
+  font-family: 'Gochi Hand', cursive;
+}
+.appName {
+  font-size: 75px;
 }
 .line {
   border-bottom: 5px solid;
