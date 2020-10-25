@@ -81,15 +81,12 @@ const Room = ({
             console.log("reset react counter", new Date().toLocaleTimeString())
             setCounter(TIME)
             setStartTime(new Date().getTime())
-            console.log("starttime", startTime)
             setReset(true)
             setResetTime(false)
         } else if (choosing === false && counter > 0) {
             const t = setTimeout(() => {
                 const now = new Date().getTime()
-                console.log("now", now)
                 const diff = Math.floor((now - startTime) / 1000)
-                console.log("diff", diff)
                 if (diff > 0) {
                     setCounter(TIME - diff)
                 }
