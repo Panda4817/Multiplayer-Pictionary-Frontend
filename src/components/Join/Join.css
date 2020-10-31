@@ -16,6 +16,9 @@
 }
 .line {
   border-bottom: 5px solid;
+  border-top: none;
+  border-left: none;
+  border-right: none;
   border-image-slice: 1;
   border-image-source: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
 }
