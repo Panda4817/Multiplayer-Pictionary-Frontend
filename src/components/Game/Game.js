@@ -46,7 +46,7 @@ const Game = ({ location }) => {
     const [lineWidth, setLineWidth] = useState(5)
 
 
-    const ENDPOINT = 'https://multiplayer-pictionary.herokuapp.com/'
+    const ENDPOINT = 'https://multiplayer-pictionary.herokuapp.com'
     //const ENDPOINT = 'http://localhost:5000'
     useEffect(() => {
         const { name, room, avatar } = queryString.parse(location.search)

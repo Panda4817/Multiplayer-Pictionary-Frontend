@@ -18,12 +18,12 @@ const Waiting = ({ participants, name, room, avatar, onClick }) => {
                 <div className="copy row justify-content-center">
                     <div className="info col-10 text-center">
                         <p role="button" onClick={() => {
-                            navigator.clipboard.writeText(`localhost:3000/join?room=${room}`)
+                            navigator.clipboard.writeText(`https://picto.netlify.app/join?room=${room}`)
                             setSuccessCopy(true)
                         }
                         }>
                             <FontAwesomeIcon className="mr-1" icon={faCopy} />Click here to copy and share this link with friends:
-                                 <u className="ml-1">localhost:3000/join?room={room}</u><span><br />{successCopy === true ? 'Copied!' : null}</span></p>
+                                 <u className="ml-1">https://picto.netlify.app/join?room={room}</u><span><br />{successCopy === true ? 'Copied!' : null}</span></p>
 
 
                     </div>
