@@ -146,8 +146,8 @@ const Room = ({
                         {participants.map((p) => {
                             return (
                                 <div className="row justify-content-between" key={'id' + p.id} id={'id' + p.id}>
-                                    <h3 className={p.name === name ? "me" : "names"}>{String.fromCodePoint(p.avatar)}{" " + p.name[0].toUpperCase() + p.name.slice(1)}</h3>
-                                    <p className="lead points">{p.points}</p>
+                                    <h3 className={p.name === name ? "me text-center" : "names text-center"}>{String.fromCodePoint(p.avatar)}{" " + p.name[0].toUpperCase() + p.name.slice(1)}</h3>
+                                    <p className="lead points text-center">{p.points}</p>
                                 </div>
                             )
                         })}
