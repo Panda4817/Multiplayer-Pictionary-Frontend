@@ -396,7 +396,7 @@ const Avatar = (setAvatar) => {
     // Set the avatar to that random emoji initially
     useEffect(() => {
         setAvatar(emojiList[randomIndex])
-    }, [randomIndex, emojiList, setAvatar])
+    }, [randomIndex, emojiList])
 
     // Function to get the active emoji and set the avatar
     const getKey = () => {
