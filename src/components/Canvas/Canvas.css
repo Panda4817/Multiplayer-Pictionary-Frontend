@@ -7,6 +7,10 @@
     border-image-source: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
     padding: 0;
     background-color: white;
-    touch-action: none;
     
+    
+}
+
+.noTouch {
+    touch-action: none;
 }

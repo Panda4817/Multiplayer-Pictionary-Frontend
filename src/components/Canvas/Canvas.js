@@ -252,6 +252,7 @@ const Canvas = ({
             onTouchEnd={event => up(event, 'touch')}
             onTouchMove={event => move(event, 'touch')}
             ref={canvasRef}
+            className={disable === false ? "noTouch" : ""}
         />
     )
 }
