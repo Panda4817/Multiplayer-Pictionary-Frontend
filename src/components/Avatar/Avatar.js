@@ -392,7 +392,7 @@ const Avatar = ({ pickEmoji }) => {
         "0x26C4"
     ]
     // Choose a random emoji to display
-    const [randomIndex] = useState(Math.floor(Math.random() * emojiList.length))
+    const [randomIndex, setRandomIndex] = useState(Math.floor(Math.random() * emojiList.length))
     // Set the avatar to that random emoji initially
     useEffect(() => {
         pickEmoji(emojiList[randomIndex])
@@ -402,7 +402,7 @@ const Avatar = ({ pickEmoji }) => {
     const getKey = () => {
         let current = document.querySelector("div[class='carousel-item active']")
         let idParts = current.getAttribute('id').split('_')
-        pickEmoji(idParts[1])
+        setRandomIndex(idParts[1])
 
     }
 
