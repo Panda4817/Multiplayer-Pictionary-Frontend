@@ -112,12 +112,12 @@ const Room = ({
                     <div className="col-lg-3">
                         {button}
                     </div>
-                    <div className="col-lg-2 timer mainHeader">
+                    <div className="col timer mainHeader">
                         <h3 className="text-center">
                             Time left: {counter}
                         </h3>
                     </div>
-                    <div className="col-lg-2 round mainHeader">
+                    <div className="col round mainHeader">
                         <h3 className="text-center">Round: {round}</h3>
                     </div>
                 </div>
