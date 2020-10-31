@@ -5,7 +5,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import './Input.css'
 
 const Input = ({ setMessage, sendMessage, message, disable }) => (
-  <div className="row justify-content-center">
+  <div className="row justify-content-center mb-2">
     <form className="col">
       <div className="input-group">
         <input
