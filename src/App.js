@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import ScrollToTop from 'react-router-scroll-top'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Join from './components/Join/Join'
 import Game from './components/Game/Game'
@@ -9,13 +8,12 @@ import Footer from './components/footer/Footer'
 
 const App = () => (
     <Router>
-        <ScrollToTop>
+        <Switch>
             <Route path="/" exact component={Join} />
             <Route path="/join" component={Join} />
             <Route path="/game" component={Game} />
-            <Footer />
-        </ScrollToTop>
-        
+        </Switch> 
+        <Footer />
     </Router>
 
 )
