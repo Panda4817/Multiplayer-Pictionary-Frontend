@@ -26,7 +26,8 @@ const Canvas = ({
     const [lines, setLines] = useState([])
 
     // Function that draws a line on the canvas
-    const drawLine = (x0, y0, x1, y1, emit, c, l) => {
+    
+    function drawLine(x0, y0, x1, y1, emit, c, l) {
         if (context !== null && reset !== true) {
             context.beginPath()
             context.moveTo(x0, y0)
@@ -53,7 +54,7 @@ const Canvas = ({
         }
 
     }
-    
+
     const down = (event, type) => {
         if (disable) {
             return
@@ -237,7 +238,7 @@ const Canvas = ({
             )
         }
 
-    }, [data])
+    }, [data, height, reset, width])
 
     useEffect(() => {
         setColor(colour)

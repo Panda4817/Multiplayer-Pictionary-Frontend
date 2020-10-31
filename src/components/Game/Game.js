@@ -47,7 +47,7 @@ const Game = ({ location }) => {
 
 
     const ENDPOINT = 'https://multiplayer-pictionary.herokuapp.com/'
-
+    //const ENDPOINT = 'http://localhost:5000'
     useEffect(() => {
         const { name, room, avatar } = queryString.parse(location.search)
         setName(name.toLowerCase())
