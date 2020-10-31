@@ -65,9 +65,7 @@ const Canvas = ({
             clientX = event.clientX
             clientY = event.clientY
         } else {
-            if (event.target === Canvas) {
-                event.preventDefault()
-            }
+            event.preventDefault()
             clientX = event.touches[0].clientX
             clientY = event.touches[0].clientY
         }
@@ -103,9 +101,7 @@ const Canvas = ({
                 line
             )
         } else {
-            if (event.target === Canvas) {
-                event.preventDefault()
-            }
+            event.preventDefault()
             clientX = event.touches[0].clientX
             clientY = event.touches[0].clientY
             x = clientX - canvasDom.left
@@ -149,9 +145,7 @@ const Canvas = ({
                 line
             )
         } else {
-            if (event.target === Canvas) {
-                event.preventDefault()
-            }
+            event.preventDefault()
             if (event.touches[0] !== undefined) {
                 clientX = event.touches[0].clientX
                 clientY = event.touches[0].clientY
