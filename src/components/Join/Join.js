@@ -73,7 +73,7 @@ const Join = ({ location }) => {
                                 className="form-control"
                                 placeholder="Username"
                                 title="Type in a name that will be visible to others. Max length is 150 characters :)"
-                                maxLength="150"
+                                maxLength="12"
                                 required
                                 onChange={(event) => setName(event.target.value)}
                             />
@@ -88,7 +88,7 @@ const Join = ({ location }) => {
                                 placeholder="Room"
                                 defaultValue={defaultRoom}
                                 title="Type in a room name. Could be one that is already created and you are joining or a brand new room. Max length is 150 characters"
-                                maxLength="12"
+                                maxLength="150"
                                 required
                                 onChange={(event) => setRoom(event.target.value)}
                             />
