@@ -8,9 +8,9 @@ import Footer from './components/footer/Footer'
 
 const App = () => (
     <Router>
-        <Route path="https://picto.netlify.app/" exact component={Join} />
-        <Route path="https://picto.netlify.app/join" component={Join} />
-        <Route path="https://picto.netlify.app/game" component={Game} />
+        <Route path="/" exact component={Join} />
+        <Route path="/join" component={Join} />
+        <Route path="/game" component={Game} />
         <Footer />
     </Router>
 
