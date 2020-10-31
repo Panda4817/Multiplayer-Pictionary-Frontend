@@ -123,7 +123,7 @@ const Room = ({
                 </div>
                 <div className="mainHeader row justify-content-start">
                     <div className="col-lg-6">
-                        {controls}
+                        {myTurn === true ? controls : null}
                     </div>
                 </div>
                 <div className="row justify-content-center">
