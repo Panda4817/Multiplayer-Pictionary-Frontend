@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Avatar = ({ pickEmoji, setAvatar }) => {
+const Avatar = (setAvatar) => {
     // Emoji unicode list
     const emojiList = [
         "0x1F600",
@@ -402,7 +402,7 @@ const Avatar = ({ pickEmoji, setAvatar }) => {
     const getKey = () => {
         let current = document.querySelector("div[class='carousel-item active']")
         let idParts = current.getAttribute('id').split('_')
-        pickEmoji(idParts[1])
+        setAvatar(idParts[1])
 
     }
 
