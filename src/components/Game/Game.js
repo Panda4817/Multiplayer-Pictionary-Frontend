@@ -233,14 +233,17 @@ const Game = ({ location }) => {
 
 
     if (error !== "" && error !== undefined) {
+        window.scrollTo(0, 0);
         return (
             <Redirect to={`/join?room=${room}&error=${error}`} />
         )
     } else if (waiting === true) {
+        window.scrollTo(0, 0);
         return (
             <Waiting participants={participants} name={name} room={room} avatar={avatar} onClick={gameStart} />
         )
     } else if (waiting === false && gameOver === false) {
+        window.scrollTo(0, 0);
         return (
             <Room
                 name={name}
@@ -293,6 +296,7 @@ const Game = ({ location }) => {
             />
         )
     } else if (gameOver === true) {
+        window.scrollTo(0, 0);
         return (
             <PostGame
                 participants={participants}

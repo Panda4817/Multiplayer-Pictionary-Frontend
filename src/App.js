@@ -9,14 +9,10 @@ import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 
 const App = () => (
     <Router>
-        <ScrollToTop>
-         <Switch>
-            <Route path="/" exact component={Join} />
-            <Route path="/join" component={Join} />
-            <Route path="/game" component={Game} />
-        </Switch>   
-        </ScrollToTop>
-         
+        <ScrollToTop />
+        <Route path="/" exact component={Join} />
+        <Route path="/join" component={Join} />
+        <Route path="/game" component={Game} />
         <Footer />
     </Router>
 
