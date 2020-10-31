@@ -198,7 +198,7 @@ const Game = ({ location }) => {
         setLineWidth(5)
         socket.emit('changeWaiting', room)
         socket.emit('gameStart', room)
-
+        window.scrollTo(0, 0)
 
     }
 
@@ -233,7 +233,7 @@ const Game = ({ location }) => {
 
 
     if (error !== "" && error !== undefined) {
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0)
         return (
             <Redirect to={`/join?room=${room}&error=${error}`} />
         )
@@ -295,7 +295,7 @@ const Game = ({ location }) => {
             />
         )
     } else if (gameOver === true) {
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0)
         return (
             <PostGame
                 participants={participants}
