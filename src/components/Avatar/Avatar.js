@@ -414,7 +414,7 @@ const Avatar = ({ pickEmoji }) => {
                     // Loop through emoji list to return one emoji per carousel slide
                     emojiList.map((val, i) => {
                         return (
-                            <div id={"id_" + val} key={val} className={i === randomIndex ? "carousel-item active" : "carousel-item"}>
+                            <div id={"id_" + i} key={val} className={i === randomIndex ? "carousel-item active" : "carousel-item"}>
                                 <h1 className="mx-auto text-center">{String.fromCodePoint(val)}</h1>
                             </div>
                         )
