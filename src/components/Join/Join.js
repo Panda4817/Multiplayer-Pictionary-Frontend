@@ -32,11 +32,11 @@ const Join = ({ location }) => {
         return
     }, [error, location.search])
 
-    /*const pickEmoji = (unicode) => {
+    const pickEmoji = (unicode) => {
         setAvatar(() => unicode)
         console.log(avatar)
         return
-    }*/
+    }
 
 
     return (
@@ -63,7 +63,7 @@ const Join = ({ location }) => {
                             <p>{error}</p>
                         </div>
                         <div className="form-label-group">
-                            <Avatar setAvatar={setAvatar} />
+                            <Avatar pickEmoji={pickEmoji} />
                         </div>
                         <div className="form-label-group">
                             <input

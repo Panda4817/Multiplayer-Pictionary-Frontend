@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Avatar = (setAvatar) => {
+const Avatar = ({ pickEmoji }) => {
     // Emoji unicode list
     const emojiList = [
         "0x1F600",
@@ -395,14 +395,15 @@ const Avatar = (setAvatar) => {
     const [randomIndex] = useState(Math.floor(Math.random() * emojiList.length))
     // Set the avatar to that random emoji initially
     useEffect(() => {
-        setAvatar(emojiList[randomIndex])
-    })
+        pickEmoji(emojiList[randomIndex])
+    }, [randomIndex, emojiList, pickEmoji])
 
     // Function to get the active emoji and set the avatar
     const getKey = () => {
-        const current = document.querySelector("div[class='carousel-item active']")
-        const idParts = current.getAttribute('id').split('_')
-        setAvatar(idParts[1])
+        let current = document.querySelector("div[class='carousel-item active']")
+        let idParts = current.getAttribute('id').split('_')
+        pickEmoji(idParts[1])
+
     }
 
     // Return bootstrap carousel
