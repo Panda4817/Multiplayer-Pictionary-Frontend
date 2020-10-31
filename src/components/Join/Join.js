@@ -88,7 +88,7 @@ const Join = ({ location }) => {
                                 placeholder="Room"
                                 defaultValue={defaultRoom}
                                 title="Type in a room name. Could be one that is already created and you are joining or a brand new room. Max length is 150 characters"
-                                maxLength="150"
+                                maxLength="12"
                                 required
                                 onChange={(event) => setRoom(event.target.value)}
                             />
