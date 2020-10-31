@@ -109,6 +109,7 @@ const Game = ({ location }) => {
             setChosen(() => chosen)
             setChoosing(true)
             setMyTurn(false)
+            setMessage(() => '')
 
         })
         socket.on('choice', ({ chosen, word1, word2, word3, round }) => {
@@ -119,6 +120,7 @@ const Game = ({ location }) => {
             setWord1(word1)
             setWord2(word2)
             setWord3(word3)
+            setMessage(() => '')
 
         })
     }, [chosen])

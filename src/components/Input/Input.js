@@ -12,7 +12,7 @@ const Input = ({ setMessage, sendMessage, message, disable }) => (
           className="form-control type_msg"
           type="text"
           placeholder="Type your guess..."
-          value={disable === false ? message : null}
+          value={message}
           onChange={({ target: { value } }) => setMessage(value)}
           onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
           disabled={disable}
