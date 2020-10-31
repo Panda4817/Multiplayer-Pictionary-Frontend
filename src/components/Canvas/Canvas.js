@@ -166,6 +166,18 @@ const Canvas = ({
         setIsDrawing(false)
     }
 
+    const throttle = (callback, delay) => {
+        let previousCall = new Date().getTime();
+        return function() {
+          const time = new Date().getTime();
+  
+          if ((time - previousCall) >= delay) {
+            previousCall = time;
+            callback.apply(null, arguments);
+          }
+        };
+      };
+
     useEffect(() => {
         var canvas = canvasRef.current
         var width = document.querySelector('#canvas').clientWidth
@@ -247,10 +259,12 @@ const Canvas = ({
             id="realCanvas"
             onMouseDown={event => down(event, 'mouse')}
             onMouseUp={event => up(event, 'mouse')}
-            onMouseMove={event => move(event, 'mouse')}
+            onMouseMove={event => throttle(move(event, 'mouse'), 10)}
+            onMouseOut={event => up(event, 'mouse')}
             onTouchStart={event => down(event, 'touch')}
             onTouchEnd={event => up(event, 'touch')}
-            onTouchMove={event => move(event, 'touch')}
+            onTouchMove={event => throttle(move(event, 'touch'), 10)}
+            onTouchCancel={event => up(event, 'touch')}
             ref={canvasRef}
             className={disable === false ? "noTouch" : ""}
         />
