@@ -243,7 +243,6 @@ const Game = ({ location }) => {
             <Waiting participants={participants} name={name} room={room} avatar={avatar} onClick={gameStart} />
         )
     } else if (waiting === false && gameOver === false) {
-        window.scrollTo(0, 0);
         return (
             <Room
                 name={name}
