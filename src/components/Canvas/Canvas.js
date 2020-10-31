@@ -27,7 +27,7 @@ const Canvas = ({
 
     // Function that draws a line on the canvas
     
-    function drawLine(x0, y0, x1, y1, emit, c, l) {
+    const drawLine = (x0, y0, x1, y1, emit, c, l) => {
         if (context !== null && reset !== true) {
             context.beginPath()
             context.moveTo(x0, y0)
