@@ -396,14 +396,13 @@ const Avatar = (setAvatar) => {
     // Set the avatar to that random emoji initially
     useEffect(() => {
         setAvatar(emojiList[randomIndex])
-    }, [randomIndex, emojiList])
+    })
 
     // Function to get the active emoji and set the avatar
     const getKey = () => {
-        let current = document.querySelector("div[class='carousel-item active']")
-        let idParts = current.getAttribute('id').split('_')
+        const current = document.querySelector("div[class='carousel-item active']")
+        const idParts = current.getAttribute('id').split('_')
         setAvatar(idParts[1])
-
     }
 
     // Return bootstrap carousel
