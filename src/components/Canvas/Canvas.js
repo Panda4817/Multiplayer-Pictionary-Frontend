@@ -204,7 +204,7 @@ const Canvas = ({
         }
         setResize(false)
         setReset(false)
-    }, [reset, waiting, resize, setReset, canvas, context])
+    }, [reset, waiting, resize, setReset, canvas])
 
     useEffect(() => {
         function handleResize() {
@@ -238,7 +238,7 @@ const Canvas = ({
             )
         }
 
-    }, [data, height, reset, width])
+    }, [data])
 
     useEffect(() => {
         setColor(colour)
