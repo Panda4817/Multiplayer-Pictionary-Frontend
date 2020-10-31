@@ -138,8 +138,8 @@ const Room = ({
                             </h2>
 
                         </div>
-                        {messagesList}
                         {input}
+                        {messagesList}
                     </div>
                     <div className="col-lg-3">
                         <h2 className="text-center mainHeader">Current Players:</h2>
