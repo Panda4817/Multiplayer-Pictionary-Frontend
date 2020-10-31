@@ -23,7 +23,7 @@ const Join = ({ location }) => {
         setRoom(room)
         console.log(room)
         async function fetchData() {
-            const response = await axios.get('/room')
+            const response = await axios.get('https://multiplayer-pictionary.herokuapp.com/room')
             setDefaultRoom(response.data.room)
             setRoom(response.data.room)
 
