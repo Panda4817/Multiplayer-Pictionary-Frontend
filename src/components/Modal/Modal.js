@@ -1,4 +1,5 @@
 import React from 'react'
+import './Modal.css'
 
 const Modal = () => {
     return (
@@ -6,7 +7,7 @@ const Modal = () => {
             <div className="modal-dialog modal-dialog-scrollable">
                 <div className="modal-content">
                 <div className="modal-header">
-                    <h5 className="modal-title" id="staticBackdropLabel">How to Play</h5>
+                    <h5 className="modal-title text-center" id="staticBackdropLabel">How to Play on Picto</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -73,8 +74,8 @@ const Modal = () => {
                             <div className="col">
                                 <h6>Game over</h6>
                                 <p>
-                                    Once game is over, you will be taken to a page that shows you everyone's scores and the winner(s).
-                                    <span className="text-upercase">One</span> person can click on the play again button to play another game.
+                                    Once game is over, you will be taken to a page that shows you everyone's scores and the winner(s). 
+                                    You can click on the play again button to play another game. <span className="text-uppercase">Only one person should click the play again button.</span>  
                                 </p>
                             </div>
                         </div>

@@ -1,0 +1,15 @@
+.modal-dialog {
+    background-color: black !important;
+}
+
+h5, h6 {
+    font-family: 'Gochi Hand', cursive !important;
+}
+
+.close {
+    color: white !important;
+}
+
+.close:hover {
+    color: lightgray !important;
+}
