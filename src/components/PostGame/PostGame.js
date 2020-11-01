@@ -79,7 +79,7 @@ const PostGame = ({ participants, onClick }) => {
                     </form>
 
                 </div>
-                <div className="info row justify-content-center">
+                <div className="info row justify-content-center mt-2">
                     <div className="col-12 text-center">
                         <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#howToPlay">
                             How to play
