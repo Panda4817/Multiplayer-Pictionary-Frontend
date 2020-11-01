@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEraser } from '@fortawesome/free-solid-svg-icons'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faUndoAlt } from '@fortawesome/free-solid-svg-icons'
 
 const Controls = ({
     changeColour,
@@ -81,10 +82,10 @@ const Controls = ({
                     }
                     }
                 >
-                    Undo
+                    <FontAwesomeIcon icon={faUndoAlt} />
                 </button>
                 <button
-                    className="btn btn-outline-light btn-block col-1 mx-auto my-auto p-0"
+                    className="btn btn-outline-light btn-block col-2 mx-auto my-auto p-0"
                     type="button"
                     onClick={event => {
                         event.preventDefault()
