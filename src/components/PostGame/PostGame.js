@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './PostGame.css'
+import Modal from '../Modal/Modal'
 
 const PostGame = ({ participants, onClick }) => {
     const [error, setError] = useState('')
@@ -78,11 +79,13 @@ const PostGame = ({ participants, onClick }) => {
                     </form>
 
                 </div>
-                <div>
-                    <p className="info text-center">
-                        To leave the room, just close the window/tab and everyone else will be back in the waiting room.
-                        The room closes automatically when the last person leaves.
-                </p>
+                <div className="info row justify-content-center">
+                    <div className="col-12 text-center">
+                        <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#howToPlay">
+                            How to play
+                        </button>
+                        <Modal />
+                    </div>
                 </div>
             </div>
         </div>

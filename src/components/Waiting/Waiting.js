@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import './Waiting.css'
+import Modal from '../Modal/Modal'
 
 const Waiting = ({ participants, name, room, avatar, onClick }) => {
     const [error, setError] = useState('')
@@ -26,6 +27,14 @@ const Waiting = ({ participants, name, room, avatar, onClick }) => {
                                  <u className="ml-1">https://picto.netlify.app/join?room={room}</u><span><br />{successCopy === true ? 'Copied!' : null}</span></p>
 
 
+                    </div>
+                </div>
+                <div className="info row justify-content-center">
+                    <div className="col-10 text-center">
+                        <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#howToPlay">
+                            How to play
+                        </button>
+                        <Modal />
                     </div>
                 </div>
                 <div className="row justify-content-center mt-3">
@@ -60,6 +69,7 @@ const Waiting = ({ participants, name, room, avatar, onClick }) => {
                     </form>
 
                 </div>
+
             </div>
         </div>
     )

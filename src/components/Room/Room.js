@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 import './Room.css'
+import Modal from '../Modal/Modal'
 
 const Room = ({
     name,
@@ -152,8 +153,14 @@ const Room = ({
                             )
                         })}
                     </div>
-
-
+                </div>
+                <div className="info row justify-content-center">
+                    <div className="col-lg-3 text-center">
+                        <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#howToPlay">
+                            How to play
+                        </button>
+                        <Modal />
+                    </div>
                 </div>
             </div>
         </div>
