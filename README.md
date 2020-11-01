@@ -16,7 +16,7 @@ Made using ReactJS.
 - "socket.io-client": "^2.3.0"
 
 ## Usage
-### Run `yarn start`
+### Run `npm start`
 Runs the frontend of the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
