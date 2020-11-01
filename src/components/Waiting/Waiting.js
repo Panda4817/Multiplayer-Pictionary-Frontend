@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import './Waiting.css'
 import Modal from '../Modal/Modal'
-const detect = require('detect');
 
 const Waiting = ({ participants, name, room, avatar, onClick }) => {
     const [error, setError] = useState('')
