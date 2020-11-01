@@ -7,7 +7,7 @@ const Modal = () => {
             <div className="modal-dialog modal-dialog-scrollable">
                 <div className="modal-content">
                 <div className="modal-header">
-                    <h5 className="modal-title text-center" id="staticBackdropLabel">How to Play on Picto</h5>
+                    <h2 className="modal-title " id="staticBackdropLabel">How to Play on Picto</h2>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>

@@ -1,9 +1,10 @@
-.modal-dialog {
+.modal, .modal-dialog, .modal-content {
     background-color: black !important;
 }
 
 h5, h6 {
     font-family: 'Gochi Hand', cursive !important;
+    font-size: large;
 }
 
 .close {
