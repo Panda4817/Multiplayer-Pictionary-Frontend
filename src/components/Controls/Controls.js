@@ -68,7 +68,7 @@ const Controls = ({
                     }
                     }
                 >
-                    <FontAwesomeIcon icon={faEraser} />
+                    <FontAwesomeIcon icon={faEraser} className="my-auto"/>
                 </button>
                 <button
                     className="btn btn-outline-light btn-block col-1 mx-auto my-auto p-0"
@@ -82,7 +82,7 @@ const Controls = ({
                     }
                     }
                 >
-                    <FontAwesomeIcon icon={faUndoAlt} />
+                    <FontAwesomeIcon icon={faUndoAlt} className="my-auto"/>
                 </button>
                 <button
                     className="btn btn-outline-light btn-block col-2 mx-auto my-auto p-0"
