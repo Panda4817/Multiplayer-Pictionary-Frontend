@@ -13,7 +13,8 @@ Made using ReactJS.
 - "react-router-dom": "^5.2.0",
 - "react-scripts": "3.4.3",
 - "react-scroll-to-bottom": "^4.0.0",
-- "socket.io-client": "^2.3.0"
+- "socket.io-client": "^2.3.0",
+- "ua-parser-js": "^0.7.22"
 
 ## Usage
 ### Run `npm start`
