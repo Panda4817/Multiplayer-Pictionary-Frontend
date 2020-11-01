@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import './Waiting.css'
 import Modal from '../Modal/Modal'
+var parser = require('ua-parser-js')
 
 const Waiting = ({ participants, name, room, avatar, onClick }) => {
     const [error, setError] = useState('')
     const [successCopy, setSuccessCopy] = useState(false)
-    const user = detect.parse(navigator.userAgent)
+    const user = parser(navigator.userAgent)
 
 
     return (
@@ -41,7 +42,7 @@ const Waiting = ({ participants, name, room, avatar, onClick }) => {
                 </div>
                 <div className="info row justify-content-center">
                         <div className="col-10 text-center">
-                            <p>{user.browser.family === 'Safari' || user.browser.family === 'Mobile Safari' ? "Not seeing everyone in the room? Try refreshing the page." : null}</p>
+                            <p>{user.browser.name === 'Safari' || user.browser.name === 'Mobile Safari' ? "Not seeing everyone in the room? Try refreshing the page." : null}</p>
                         </div>
                 </div>
                 <div className="row justify-content-center mt-3">
