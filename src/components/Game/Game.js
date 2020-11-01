@@ -44,6 +44,7 @@ const Game = ({ location }) => {
     const [reset, setReset] = useState(false)
     const [colour, setColour] = useState("#000000")
     const [lineWidth, setLineWidth] = useState(5)
+    const [undo, setUndo] = useState(false)
 
 
     const ENDPOINT = 'https://multiplayer-pictionary.herokuapp.com'
@@ -192,6 +193,12 @@ const Game = ({ location }) => {
         })
     }, [])
 
+    useEffect(() => {
+        socket.on('undo', () => {
+            setUndo(true)
+        })
+    }, [])
+
     const gameStart = () => {
         console.log("game started")
         setGameOver(false)
@@ -233,6 +240,11 @@ const Game = ({ location }) => {
         socket.emit('clear', room)
     }
 
+    const undoCanvas = () => {
+        setUndo(true)
+        socket.emit('undo', room)
+    }
+
 
     if (error !== "" && error !== undefined) {
         window.scrollTo(0, 0)
@@ -269,6 +281,7 @@ const Game = ({ location }) => {
                         changeWidth={changeWidth}
                         controlsDisable={myTurn === true ? false : true}
                         lineWidth={lineWidth}
+                        undoCanvas={undoCanvas}
                     />
                 }
                 canvas={
@@ -281,6 +294,8 @@ const Game = ({ location }) => {
                         waiting={waiting}
                         colour={colour}
                         lineWidth={lineWidth}
+                        undo={undo}
+                        setUndo={setUndo}
                     />
                 }
                 messagesList={

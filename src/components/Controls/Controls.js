@@ -8,7 +8,8 @@ const Controls = ({
     clearCanvas,
     changeWidth,
     controlsDisable,
-    lineWidth
+    lineWidth,
+    undoCanvas
 }) => {
     const colours = [
         "#000000", //black
@@ -67,6 +68,20 @@ const Controls = ({
                     }
                 >
                     <FontAwesomeIcon icon={faEraser} />
+                </button>
+                <button
+                    className="btn btn-outline-light btn-block col-2 mx-auto my-auto p-0"
+                    type="button"
+                    onClick={event => {
+                        event.preventDefault()
+                        if (!disable) {
+                            undoCanvas()
+                        }
+
+                    }
+                    }
+                >
+                    Undo
                 </button>
                 <button
                     className="btn btn-outline-light btn-block col-2 mx-auto my-auto p-0"

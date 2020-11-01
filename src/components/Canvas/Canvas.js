@@ -9,7 +9,9 @@ const Canvas = ({
     data,
     waiting,
     colour,
-    lineWidth
+    lineWidth,
+    undo,
+    setUndo
 }) => {
 
     const canvasRef = useRef(null)
@@ -191,6 +193,9 @@ const Canvas = ({
         setWidth(width)
         setContext(canvas.getContext('2d'))
         setCurrent({ 'x': null, 'y': null })
+        if (undo === true) {
+            setLines((lines) => lines.slice(0,lines.length - 1))
+        }
         if (reset === true) {
             setLines([])
         }
@@ -210,7 +215,8 @@ const Canvas = ({
         }
         setResize(false)
         setReset(false)
-    }, [reset, waiting, resize, setReset, canvas])
+        setUndo(false)
+    }, [reset, waiting, resize, setReset, canvas, undo, setUndo])
 
     useEffect(() => {
         function handleResize() {
