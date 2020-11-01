@@ -7,6 +7,7 @@ import '../Avatar/Avatar'
 import Avatar from '../Avatar/Avatar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import Modal from '../Modal/Modal'
 
 const Join = ({ location }) => {
     const [name, setName] = useState('')
@@ -54,7 +55,10 @@ const Join = ({ location }) => {
                 </div>
                 <div className="info row justify-content-center">
                     <div className="col-12 text-center">
-                        <p>Choose an emoji avatar, type in a temporary username and change the room name (optional)</p>
+                        <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#howToPlay">
+                            How to play
+                        </button>
+                        <Modal />
                     </div>
                 </div>
                 <div id="form" className="row justify-content-center">
@@ -72,7 +76,7 @@ const Join = ({ location }) => {
                                 id="id_username"
                                 className="form-control"
                                 placeholder="Username"
-                                title="Type in a name that will be visible to others. Max length is 150 characters :)"
+                                title="Type in a name that will be visible to others. Max length is 12 characters :)"
                                 maxLength="12"
                                 required
                                 onChange={(event) => setName(event.target.value)}
