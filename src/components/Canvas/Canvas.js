@@ -194,7 +194,7 @@ const Canvas = ({
         setContext(canvas.getContext('2d'))
         setCurrent({ 'x': null, 'y': null })
         if (undo === true) {
-            setLines((lines) => {lines.slice(0, -1)})
+            setLines(lines => lines.slice(0, -1))
         }
         if (reset === true) {
             setLines([])
