@@ -220,7 +220,6 @@ const Canvas = ({
 
     useEffect(() => {
         function handleResize() {
-            console.log('resized to: ', window.innerWidth, 'x', window.innerHeight)
             setResize(true)
 
         }

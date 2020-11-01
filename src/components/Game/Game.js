@@ -54,7 +54,6 @@ const Game = ({ location }) => {
         setName(name.toLowerCase())
         setRoom(room.toLowerCase())
         setAvatar(avatar)
-        console.log(avatar)
         socket = io(ENDPOINT)
         socket.emit('join', { name, room, avatar }, (error) => {
             if (error !== null) {
@@ -157,7 +156,6 @@ const Game = ({ location }) => {
     useEffect(() => {
         socket.on('resetTime', () => {
             setResetTime(true)
-            console.log("reset time event received", new Date().toLocaleTimeString())
         })
     }, [])
 
@@ -200,7 +198,6 @@ const Game = ({ location }) => {
     }, [])
 
     const gameStart = () => {
-        console.log("game started")
         setGameOver(false)
         setWaiting(false)
         setColour("#000000")

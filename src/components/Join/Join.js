@@ -22,7 +22,6 @@ const Join = ({ location }) => {
         setError(error)
         setDefaultRoom(room)
         setRoom(room)
-        console.log(room)
         async function fetchData() {
             const response = await axios.get('https://multiplayer-pictionary.herokuapp.com/room')
             setDefaultRoom(response.data.room)
@@ -35,7 +34,6 @@ const Join = ({ location }) => {
 
     const pickEmoji = (unicode) => {
         setAvatar(() => unicode)
-        console.log(avatar)
         return
     }
 

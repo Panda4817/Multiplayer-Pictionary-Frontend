@@ -79,7 +79,6 @@ const Room = ({
 
     useEffect(() => {
         if (resetTime === true) {
-            console.log("reset react counter", new Date().toLocaleTimeString())
             setCounter(TIME)
             setStartTime(new Date().getTime())
             setReset(true)
