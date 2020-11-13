@@ -3,7 +3,7 @@ import './Modal.css'
 
 const Modal = () => {
     return (
-        <div className="modal fade" id="howToPlay" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div className="modal fade" id="howToPlay" data-backdrop="static" data-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-scrollable">
                 <div className="modal-content">
                 <div className="modal-header">
@@ -66,7 +66,8 @@ const Modal = () => {
                                 <h3>Scores</h3>
                                 <p>
                                     The total score is dependent on the number of players i.e. 10 players = total score of 1000. The first player to guess correct will get the highest score of 1000, the second will get 900 and so on.
-                                    Scores are always visible during play (Might need to scroll to the bottom of the page on mobile devices).
+                                    Scores are always visible during play (Might need to scroll to the bottom of the page on mobile devices). 
+                                    The person drawing will also receive points dependent on how many people can guess the word correctly from their drawing. 100 points for each correct guess.
                                 </p>
                             </div>
                         </div>
