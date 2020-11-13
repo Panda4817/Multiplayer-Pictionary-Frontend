@@ -5,7 +5,9 @@ import './Waiting.css'
 import Modal from '../Modal/Modal'
 var parser = require('ua-parser-js')
 
+// Component renders waiting room page
 const Waiting = ({ participants, name, room, avatar, onClick }) => {
+    // States to handle page functions (display errors, copy url, display device specific messages)
     const [error, setError] = useState('')
     const [successCopy, setSuccessCopy] = useState(false)
     const user = parser(navigator.userAgent)

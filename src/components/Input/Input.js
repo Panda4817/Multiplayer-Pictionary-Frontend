@@ -4,6 +4,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 import './Input.css'
 
+// Component to render the chat input box
 const Input = ({ setMessage, sendMessage, message, disable }) => (
   <div className="row justify-content-center mb-2">
     <form className="col">

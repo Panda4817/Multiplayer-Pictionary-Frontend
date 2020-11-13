@@ -7,6 +7,7 @@ import Game from './components/Game/Game'
 import Footer from './components/footer/Footer'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 
+// Main app component
 const App = () => (
     <Router>
         <ScrollToTop />

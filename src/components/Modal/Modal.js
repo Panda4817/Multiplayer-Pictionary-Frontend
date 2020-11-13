@@ -1,6 +1,7 @@
 import React from 'react'
 import './Modal.css'
 
+// Component to render a 'how to play' bootstrap modal
 const Modal = () => {
     return (
         <div className="modal fade" id="howToPlay" data-backdrop="static" data-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

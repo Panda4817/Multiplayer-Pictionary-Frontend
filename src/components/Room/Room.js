@@ -26,12 +26,14 @@ const Room = ({
     messagesList,
     input
 }) => {
+    // Room states to handle timers
     const TIME = 30
     const [button, setButton] = useState('')
     const [counter, setCounter] = useState(TIME)
     const [showSpinner, setShowSpinner] = useState(false)
     const [startTime, setStartTime] = useState(new Date().getTime())
 
+    // Handle whether to display choice words (only to person chosen to draw) or just the info string
     useEffect(() => {
         if (myTurn === true && choosing === true) {
             setButton(() =>
@@ -71,18 +73,22 @@ const Room = ({
         }
     }, [myTurn, onClick, choosing, word1, word2, word3])
 
+    // Handle showing of spinner
     useEffect(() => {
         if (spinner === true) {
             setShowSpinner(true)
         }
     }, [spinner])
 
+    // Handle the timer logic
     useEffect(() => {
+        // Reset timer, counter, canvas when turn over
         if (resetTime === true) {
             setCounter(TIME)
             setStartTime(new Date().getTime())
             setReset(true)
             setResetTime(false)
+        // Count down when in turn
         } else if (choosing === false && counter > 0) {
             const t = setTimeout(() => {
                 const now = new Date().getTime()
@@ -92,7 +98,7 @@ const Room = ({
                 }
             }, 1000)
             return () => clearTimeout(t)
-
+        // Or just set the counter to 0 when timer is up and it is choosing time (choosing lasts 5 seconds)
         } else if (choosing === true) {
             setCounter(0)
         }

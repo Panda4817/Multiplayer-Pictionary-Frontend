@@ -6,7 +6,9 @@ import './Message.css'
 
 import ReactEmoji from 'react-emoji'
 
+// Component to render individual messages
 const Message = ({ message: { text, user, img }, name, avatar }) => {
+    // Check if message is sent by current user and display it different to all other messages
     let isSentByCurrentUser = false
 
     const trimmedName = name.trim().toLowerCase()

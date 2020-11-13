@@ -14,6 +14,7 @@ const Canvas = ({
     setUndo
 }) => {
 
+    // Canvas states
     const canvasRef = useRef(null)
     const [isDrawing, setIsDrawing] = useState(false)
     const [disable, setDisable] = useState(canvasDisable)
@@ -57,12 +58,16 @@ const Canvas = ({
 
     }
 
+    // Function handling mouse press or touch
     const down = (event, type) => {
+        // Check if disabled
         if (disable) {
             return
         }
+        // Set up variables to store coordinates
         let clientX
         let clientY
+        // Get the appropriate values dependent on method of drawing
         if (type === 'mouse') {
             clientX = event.clientX
             clientY = event.clientY
@@ -71,6 +76,7 @@ const Canvas = ({
             clientX = event.touches[0].clientX
             clientY = event.touches[0].clientY
         }
+        // Set the current coordinates of drawing
         const canvasDom = document.querySelector('#realCanvas').getBoundingClientRect()
         const x = clientX - canvasDom.left
         const y = clientY - canvasDom.top
@@ -80,14 +86,18 @@ const Canvas = ({
 
     }
 
+    // Function handling mouse movement and touch drag
     const move = (event, type) => {
+        // Check if canvas is disabled or isDrawing is not true
         if (!isDrawing || disable) {
             return
         }
+        // Set up variables to store coordinates
         let clientX
         let clientY
         let x, y
         const canvasDom = document.querySelector('#realCanvas').getBoundingClientRect()
+        // Get the appropriate values and draw the line on the canvas
         if (type === 'mouse') {
             clientX = event.clientX
             clientY = event.clientY
@@ -119,19 +129,25 @@ const Canvas = ({
             )
         }
 
+        
+        // Set the current coordinates to that value
         let c = { 'x': x, 'y': y }
         setCurrent(() => c)
         setIsDrawing(true)
     }
 
+    // Function handling mouse up and touch finish
     const up = (event, type) => {
+         // Check if canvas is disabled or isDrawing is not true
         if (!isDrawing || disable) {
             return
         }
+         // Set up variables to store coordinates
         let clientX
         let clientY
         let x, y
         const canvasDom = document.querySelector('#realCanvas').getBoundingClientRect()
+         // Get the appropriate values and draw the final line on the canvas before mouse up/touch finish 
         if (type === 'mouse') {
             clientX = event.clientX
             clientY = event.clientY
@@ -165,9 +181,11 @@ const Canvas = ({
             }
 
         }
+        // Set drawing to false as mouse is up/ touch is finished
         setIsDrawing(false)
     }
 
+    // A function to stop overloading the server with drawing data
     const throttle = (callback, delay) => {
         let previousCall = new Date().getTime();
         return function() {
@@ -180,7 +198,9 @@ const Canvas = ({
         };
       };
 
+    // Handle resetting and clearing the canvas
     useEffect(() => {
+        // Set up canvas
         var canvas = canvasRef.current
         var width = document.querySelector('#canvas').clientWidth
         var height = document.querySelector('#canvas').clientHeight
@@ -193,12 +213,15 @@ const Canvas = ({
         setWidth(width)
         setContext(canvas.getContext('2d'))
         setCurrent({ 'x': null, 'y': null })
+        // Check for undo button being pressed
         if (undo === true) {
             setLines(lines => lines.slice(0, -10))
         }
+        // Check if reset if pressed
         if (reset === true) {
             setLines([])
         }
+        // Check if any data in lines, recreate drawing on the canvas (for resizing canvas)
         if (lines) {
             lines.map((data) => {
                 drawLine(
@@ -213,11 +236,13 @@ const Canvas = ({
                 return true
             })
         }
+        // Set the variables back to false
         setResize(false)
         setReset(false)
         setUndo(false)
     }, [reset, waiting, resize, setReset, canvas, undo, setUndo])
 
+    // Handle the resizing of the canvas with view-width changing
     useEffect(() => {
         function handleResize() {
             setResize(true)
@@ -231,10 +256,12 @@ const Canvas = ({
         }
     })
 
+    // Handles if the canvas is disabled
     useEffect(() => {
         setDisable(canvasDisable)
     }, [canvasDisable])
 
+    // Handles drawing on canvas from emitted data over web sockets
     useEffect(() => {
         if (data !== null && reset === false) {
             setLines((lines) => [...lines, data])
@@ -251,10 +278,12 @@ const Canvas = ({
 
     }, [data])
 
+    // Handles changing brush colour
     useEffect(() => {
         setColor(colour)
     }, [colour])
 
+    // Handles changing line width
     useEffect(() => {
         setLineWidth(lineWidth)
     }, [lineWidth])

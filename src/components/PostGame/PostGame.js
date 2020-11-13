@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './PostGame.css'
 import Modal from '../Modal/Modal'
 
+// Component to display post-game page
 const PostGame = ({ participants, onClick }) => {
     const [error, setError] = useState('')
 

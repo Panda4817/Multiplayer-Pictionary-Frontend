@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopyright } from '@fortawesome/free-solid-svg-icons'
 import './Footer.css'
 
+// Footer component rendered on each page
 class Footer extends React.Component {
 	render() {
 		let x = new Date().getFullYear()

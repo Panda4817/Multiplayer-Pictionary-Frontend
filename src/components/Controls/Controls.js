@@ -12,6 +12,7 @@ const Controls = ({
     lineWidth,
     undoCanvas
 }) => {
+    // Brush colours
     const colours = [
         "#000000", //black
         "#FF0000", //red
@@ -26,8 +27,10 @@ const Controls = ({
         "#A52A2A", //brown
         "#00FF00", //light green
     ]
+    // State to choose if the controls are disabled for a player
     const [disable, setDisable] = useState(false)
 
+    // Handle if the controls are disabled
     useEffect(() => {
         setDisable(controlsDisable)
     }, [controlsDisable])

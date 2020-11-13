@@ -9,29 +9,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import Modal from '../Modal/Modal'
 
+// Component to render Join page
 const Join = ({ location }) => {
+    // States to store data filled in the form
     const [name, setName] = useState('')
     const [room, setRoom] = useState('')
     const [error, setError] = useState('')
     const [defaultRoom, setDefaultRoom] = useState('')
     const [avatar, setAvatar] = useState('0x1F600')
 
+    // Handle getting a random room name
     useEffect(() => {
+        // if queries present in url, retrieve them to display
         const { error } = queryString.parse(location.search)
         const { room } = queryString.parse(location.search)
         setError(error)
         setDefaultRoom(room)
         setRoom(room)
+        // A function to get a random room name
         async function fetchData() {
             const response = await axios.get('https://multiplayer-pictionary.herokuapp.com/room')
             setDefaultRoom(response.data.room)
             setRoom(response.data.room)
 
         }
+        // Only fetch a new room name if the no room name was found in the url
         if (room === '' || room === undefined) { fetchData() }
         return
     }, [error, location.search])
 
+    // A function to change the avatar
     const pickEmoji = (unicode) => {
         setAvatar(() => unicode)
         return

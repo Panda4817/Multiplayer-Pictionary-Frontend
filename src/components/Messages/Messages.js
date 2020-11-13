@@ -6,6 +6,7 @@ import Message from './Message/Message'
 
 import './Messages.css'
 
+// Component to display messages
 const Messages = ({ messages, name, avatar }) => {
     return (
         <ScrollToBottom className="messages">
