@@ -6,7 +6,7 @@ import './Input.css'
 
 // Component to render the chat input box
 const Input = ({ setMessage, sendMessage, message, disable }) => (
-  <div className="row justify-content-center mb-2">
+  <div className="row justify-content-center mb-2" hidden={disable}>
     <form className="col">
       <div className="input-group">
         <input

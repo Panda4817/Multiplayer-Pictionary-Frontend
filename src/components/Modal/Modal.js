@@ -33,9 +33,8 @@ const Modal = () => {
                         <div className="row justify-content-center">
                             <div className="col">
                                 <h3>Waiting room</h3>
-                                <p>Once you click on Join, you will be in your waiting room. Wait until everyone is there and decide who will go first. 
-                                    That person can click on start game. <span className="text-uppercase">Only one person should click on start game.</span> 
-                                    If the person that clicks 'start game' leaves in the game, every one will be taken to the post game page and any scores will be shown. A new person can click 'play again' to start a new game.
+                                <p>Once you click on Join, you will be in your waiting room. Wait there until everyone is in and then click on 'start game'.  
+                                    <span className="text-uppercase">Only one person should click on 'start game'.</span> 
                                 </p>
                             </div>
                         </div>
@@ -79,7 +78,7 @@ const Modal = () => {
                                 <h3>Game over</h3>
                                 <p>
                                     Once game is over, you will be taken to a page that shows you everyone's scores and the winner(s). 
-                                    You can click on the play again button to play another game. <span className="text-uppercase">Only one person should click the play again button.</span>  
+                                    You can click on the 'play again' button to play another game. <span className="text-uppercase">Only one person should click the 'play again' button.</span>  
                                 </p>
                             </div>
                         </div>
@@ -88,7 +87,7 @@ const Modal = () => {
                                 <h3>Leaving</h3>
                                 <p>
                                     You may leave the room by closing the tab or window. Once everyone has left, the room will be destroyed. 
-                                    If a player, not the person that clicked on 'start game' or 'play again', leaves, then the game continues as normal. If that person was drawing, wait for their turn to end to continue as normal. 
+                                    If a player leaves, then the game continues as normal. If that person was drawing, wait for their turn to end to continue as normal. 
                                 </p>
                             </div>
                         </div>
