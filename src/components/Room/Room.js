@@ -161,7 +161,7 @@ const Room = ({
                 </div>
                 <div className="info row justify-content-start">
                     <div className="col-lg-6 text-center">
-                        <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#howToPlay">
+                        <button type="button" className="btn btn-primary btn-sm mt-1" data-toggle="modal" data-target="#howToPlay">
                             How to play
                         </button>
                         <Modal />
