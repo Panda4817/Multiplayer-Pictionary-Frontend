@@ -111,7 +111,7 @@ const Room = ({
                 <div className="row justify-content-around">
                     <div className="col-lg-4">
                         <h1 className="text-center mainHeader">
-                            {info}
+                            {info === '' ? 'Joining an existing game...' : info}
                         </h1>
                     </div>
                     {showSpinner === true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner mx-auto my-auto col-lg-1 p-1" />) : null}
@@ -120,11 +120,11 @@ const Room = ({
                     </div>
                     <div className="col timer mainHeader">
                         <h3 className="text-center">
-                            Time left: {counter}
+                            Time left: {info !== '' ? counter : 'updating...'}
                         </h3>
                     </div>
                     <div className="col round mainHeader">
-                        <h3 className="text-center">Round: {round}</h3>
+                        <h3 className="text-center">Round: {info !== '' ? round : 'updating...'}</h3>
                     </div>
                 </div>
                 <div className="mainHeader row justify-content-start">

@@ -25,7 +25,8 @@ const Modal = () => {
                             <div className="col">
                                 <h3>Join a Room</h3>
                                 <p>if your friend as sent you a link that looks something like this: https://picto.netlify.app/join?room=room-name, click on the link and you will
-                                    see that the room field is already filled in. You just need to choose an emoji avatar and a temporary username.
+                                    see that the room field is already filled in. You just need to choose an emoji avatar and a temporary username. 
+                                    If your friends have already started playing, you can join an existing game, though the timer and round numbers won't update until the next turn.
                                 </p>
                             </div>
                         </div>
@@ -33,7 +34,8 @@ const Modal = () => {
                             <div className="col">
                                 <h3>Waiting room</h3>
                                 <p>Once you click on Join, you will be in your waiting room. Wait until everyone is there and decide who will go first. 
-                                    That person can click on start game. <span className="text-uppercase">Only one person should click on start game.</span>
+                                    That person can click on start game. <span className="text-uppercase">Only one person should click on start game.</span> 
+                                    If the person that clicks 'start game' leaves in the game, every one will be taken to the post game page and any scores will be shown. A new person can click 'play again' to start a new game.
                                 </p>
                             </div>
                         </div>
@@ -41,7 +43,7 @@ const Modal = () => {
                             <div className="col">
                                 <h3>Playing - Your Turn</h3>
                                 <p>You will have 3 words to pick from and 5 seconds to choose, first word is picked as default. 
-                                    Once picked, you have 30 seconds to draw that word. You will not be able to guess your own word. Do not use the word in your drawing.
+                                    Once picked, you have 30 seconds to draw that word. You will not be able to guess your own word. Do not use the word in your drawing. 
                                 </p>
                             </div>
                         </div>
@@ -85,7 +87,8 @@ const Modal = () => {
                             <div className="col">
                                 <h3>Leaving</h3>
                                 <p>
-                                    You may leave the room by closing the tab or window. Once everyone has left, the room will be destroyed.
+                                    You may leave the room by closing the tab or window. Once everyone has left, the room will be destroyed. 
+                                    If a player, not the person that clicked on 'start game' or 'play again', leaves, then the game continues as normal. If that person was drawing, wait for their turn to end to continue as normal. 
                                 </p>
                             </div>
                         </div>
