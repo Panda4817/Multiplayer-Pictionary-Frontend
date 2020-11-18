@@ -34,6 +34,7 @@ const Game = ({ location }) => {
     const [resetTime, setResetTime] = useState(false)
     const [gameOver, setGameOver] = useState(false)
     const [spinner, setSpinner] = useState(false)
+    const [guessCorrect, setGuessCorrect] = useState(false)
 
     // Chat variables
     const [message, setMessage] = useState('')
@@ -55,8 +56,8 @@ const Game = ({ location }) => {
     // Handles refresh of page, joining and disconnecting of players to game room
     useEffect(() => {
         const { name, room, avatar } = queryString.parse(location.search)
-        setName(name.toLowerCase())
-        setRoom(room.toLowerCase())
+        setName(name.trim().toLowerCase())
+        setRoom(room.trim().toLowerCase())
         setAvatar(avatar)
         socket = io(ENDPOINT)
         socket.emit('join', { name, room, avatar }, (error) => {
@@ -118,6 +119,7 @@ const Game = ({ location }) => {
             setChoosing(true)
             setMyTurn(false)
             setMessage(() => '')
+            setGuessCorrect(false)
 
         })
         socket.on('choice', ({ chosen, word1, word2, word3, round }) => {
@@ -129,6 +131,7 @@ const Game = ({ location }) => {
             setWord2(word2)
             setWord3(word3)
             setMessage(() => '')
+            setGuessCorrect(false)
 
         })
     }, [chosen])
@@ -188,8 +191,15 @@ const Game = ({ location }) => {
     useEffect(() => {
         socket.on('message', message => {
             setMessages(messages => [...messages, message])
+            if (message['user'] === name) {
+                if (message['text'].includes('correct')) {
+                    setGuessCorrect(true)
+                } else {
+                    setGuessCorrect(false)
+                }
+            }
         })
-    }, [])
+    }, [name])
 
     // Handles canvas resetting
     useEffect(() => {
@@ -296,6 +306,7 @@ const Game = ({ location }) => {
                 round={round} //pass the round number to game room to display
                 setReset={setReset} //pass the setReset variable so canvas can reset at the same time the turn ends
                 spinner={spinner} //pass the spinner variable that determines if the spinner should be shown
+                guessCorrect={guessCorrect} // Change canvas border colour to visually tell you if the guess was right
                 controls={
                     <Controls
                         changeColour={changeColour} //pass the function that handles changing of colour

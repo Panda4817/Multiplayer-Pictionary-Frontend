@@ -21,6 +21,7 @@ const Room = ({
     round,
     setReset,
     spinner,
+    guessCorrect,
     controls,
     canvas,
     messagesList,
@@ -134,7 +135,7 @@ const Room = ({
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <div id="canvas" className="col-lg-6">
+                    <div id="canvas" className={guessCorrect === true ? "col-lg-6 correct" : "col-lg-6"}>
                         {canvas}
                     </div>
                     <div className="col-lg-3">

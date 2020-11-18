@@ -1,3 +1,7 @@
+.correct {
+    border-image-source: linear-gradient(to right, darkgreen, green, darkgreen) !important;
+    background-color: lightgreen !important;
+}
 
 #canvas {
     width: 100%;
@@ -14,3 +18,4 @@
 .noTouch {
     touch-action: none;
 }
+

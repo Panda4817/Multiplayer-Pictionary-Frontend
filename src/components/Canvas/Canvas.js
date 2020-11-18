@@ -27,6 +27,7 @@ const Canvas = ({
     const [line, setLineWidth] = useState(lineWidth)
     const [resize, setResize] = useState(false)
     const [lines, setLines] = useState([])
+    const [canvasClass, setCanvasClass] = useState('')
 
     // Function that draws a line on the canvas
     
@@ -288,6 +289,15 @@ const Canvas = ({
         setLineWidth(lineWidth)
     }, [lineWidth])
 
+    //Handle canvas class string
+    useEffect(() => {
+        let s = ''
+        if (disable === false) {
+            s += 'noTouch'
+        }
+        setCanvasClass(() => s)
+    }, [disable])
+
     return (
         <canvas
             id="realCanvas"
@@ -300,7 +310,7 @@ const Canvas = ({
             onTouchMove={event => throttle(move(event, 'touch'), 10)}
             onTouchCancel={event => up(event, 'touch')}
             ref={canvasRef}
-            className={disable === false ? "noTouch" : ""}
+            className={canvasClass}
         />
     )
 }
