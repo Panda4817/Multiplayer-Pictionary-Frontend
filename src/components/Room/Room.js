@@ -68,6 +68,7 @@ const Room = ({
                     >{word3}</button>
                 </div>
             )
+            window.scrollTo(0, 0)
         } else {
             setButton(() => '')
             setShowSpinner(false)
@@ -102,7 +103,6 @@ const Room = ({
         // Or just set the counter to 0 when timer is up and it is choosing time (choosing lasts 5 seconds)
         } else if (choosing === true) {
             setCounter(0)
-            window.scrollTo(0, 0)
         }
 
 

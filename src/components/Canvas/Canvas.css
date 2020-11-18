@@ -1,6 +1,5 @@
 .correct {
-    border-image-source: linear-gradient(to right, darkgreen, green, darkgreen) !important;
-    background-color: lightgreen !important;
+    border-image-source: linear-gradient(to right, darkgreen, green, lightgreen, green, darkgreen) !important;
 }
 
 #canvas {
