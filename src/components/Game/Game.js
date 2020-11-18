@@ -118,11 +118,13 @@ const Game = ({ location }) => {
             setChosen(() => chosen)
             setChoosing(true)
             setMyTurn(false)
-            setMessage(() => '')
             setGuessCorrect(false)
+            setMessage(() => '')
+            
 
         })
         socket.on('choice', ({ chosen, word1, word2, word3, round }) => {
+            window.scrollTo(0, 0)
             setRound(() => round)
             setChosen(() => chosen)
             setMyTurn(true)
@@ -130,9 +132,9 @@ const Game = ({ location }) => {
             setWord1(word1)
             setWord2(word2)
             setWord3(word3)
-            setMessage(() => '')
             setGuessCorrect(false)
-            window.scrollTo(0, 0)
+            setMessage(() => '')
+            
 
         })
     }, [chosen])
@@ -200,7 +202,17 @@ const Game = ({ location }) => {
                 }
             }
         })
-    }, [name])
+    }, [])
+
+    /*useEffect(() => {
+        if (guessCorrect === true) {
+            window.confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            })
+        }
+    }, [guessCorrect])*/
 
     // Handles canvas resetting
     useEffect(() => {

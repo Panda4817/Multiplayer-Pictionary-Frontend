@@ -7,7 +7,7 @@ const PostGame = ({ participants, onClick }) => {
     const [error, setError] = useState('')
 
     // find winner(s)
-    const winners = []
+    let winners = []
     let max = 0
     for (var i = 0; i < participants.length; i++) {
         if (participants[i].points >= max) {
@@ -20,8 +20,8 @@ const PostGame = ({ participants, onClick }) => {
     }
 
     // sort losers
-    const sortedList = participants.sort(function (a, b) { return b.points - a.points })
-    const losers = sortedList.filter(user => {
+    let sortedList = participants.sort(function (a, b) { return b.points - a.points })
+    let losers = sortedList.filter(user => {
         for (var i = 0; i < winners.length; i++) {
             if (winners[i].name === user.name) {
                 return false
@@ -29,6 +29,41 @@ const PostGame = ({ participants, onClick }) => {
         }
         return true
     })
+
+    
+    /*var count = 200;
+    var defaults = {
+        origin: { y: 0.7 }
+    };
+
+    function fire(particleRatio, opts) {
+        window.confetti(Object.assign({}, defaults, opts, {
+            particleCount: Math.floor(count * particleRatio)
+        }));
+    }
+
+    fire(0.25, {
+        spread: 26,
+        startVelocity: 55,
+    });
+    fire(0.2, {
+        spread: 60,
+    });
+    fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 0.8
+    });
+    fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        scalar: 1.2
+    });
+    fire(0.1, {
+        spread: 120,
+        startVelocity: 45,
+    });*/
 
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
