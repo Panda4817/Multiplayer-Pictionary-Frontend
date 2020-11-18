@@ -11,8 +11,23 @@
     border-image-source: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
     padding: 0;
     background-color: white;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     
-    
+}
+
+#canvas::selection {
+    background-color: transparent;
+}
+
+#canvas::moz-selection {
+    background-color: transparent;
+}
+
+#canvas::webkit-selection {
+    background-color: transparent;
 }
 
 .noTouch {
