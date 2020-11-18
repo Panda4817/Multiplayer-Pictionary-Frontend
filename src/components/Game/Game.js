@@ -132,6 +132,7 @@ const Game = ({ location }) => {
             setWord3(word3)
             setMessage(() => '')
             setGuessCorrect(false)
+            window.scrollTo(0, 0)
 
         })
     }, [chosen])

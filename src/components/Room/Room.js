@@ -68,7 +68,6 @@ const Room = ({
                     >{word3}</button>
                 </div>
             )
-            window.scrollTo(0, 0)
         } else {
             setButton(() => '')
             setShowSpinner(false)
