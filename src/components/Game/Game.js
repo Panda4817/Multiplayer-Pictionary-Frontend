@@ -194,17 +194,25 @@ const Game = ({ location }) => {
     useEffect(() => {
         socket.on('message', message => {
             setMessages(messages => [...messages, message])
-            if (message['user'] === name) {
-                if (message['text'].includes('correct')) {
-                    setGuessCorrect(true)
-                } else {
-                    setGuessCorrect(false)
-                }
-            }
+            
         })
     }, [])
 
-    /*useEffect(() => {
+    // Set guess correct true for a correct guess (used to change border colour and confetti effect)
+    useEffect(() => {
+        let len = messages.length
+        if (len === 0) {
+            return
+        }
+        if (messages[len - 1].text.includes('correct')) {
+            setGuessCorrect(() => messages[len - 1]['user'] === name ? true : false)
+        } else {
+            setGuessCorrect(() => false)
+        }
+    }, [messages, name])
+
+    // Added confetti effect for correct guess
+    useEffect(() => {
         if (guessCorrect === true) {
             window.confetti({
                 particleCount: 100,
@@ -212,7 +220,7 @@ const Game = ({ location }) => {
                 origin: { y: 0.6 }
             })
         }
-    }, [guessCorrect])*/
+    }, [guessCorrect])
 
     // Handles canvas resetting
     useEffect(() => {
