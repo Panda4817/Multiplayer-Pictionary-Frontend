@@ -71,6 +71,7 @@ const Room = ({
             setButton(() => '')
             setShowSpinner(false)
         }
+        window.scrollTo(0, 0)
     }, [myTurn, onClick, choosing, word1, word2, word3])
 
     // Handle showing of spinner
