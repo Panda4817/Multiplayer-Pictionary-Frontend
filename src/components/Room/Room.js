@@ -134,8 +134,8 @@ const Room = ({
                         {myTurn === true ? controls : null}
                     </div>
                 </div>
-                <div className="row justify-content-center">
-                    <div id="canvas" className={guessCorrect === true ? "col-11 col-lg-6 correct" : "col-11 col-lg-6"}>
+                <div className="row justify-content-center" style={{'touchAction': 'pan-y'}}>
+                    <div id="canvas" className={guessCorrect === true ? "col-11 col-lg-6 correct" : "col-11 col-lg-6"} >
                         {canvas}
                     </div>
                     <div className="col-lg-3">
