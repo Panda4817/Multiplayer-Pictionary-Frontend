@@ -130,12 +130,12 @@ const Room = ({
                     </div>
                 </div>
                 <div className="mainHeader row justify-content-start">
-                    <div className="col-lg-6">
+                    <div className="col-11 col-lg-12" style={{'marginLeft': 'auto', 'marginRight': 'auto'}}>
                         {myTurn === true ? controls : null}
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <div id="canvas" className={guessCorrect === true ? "col-lg-6 correct" : "col-lg-6"}>
+                    <div id="canvas" className={guessCorrect === true ? "col-11 col-lg-6 correct" : "col-11 col-lg-6"}>
                         {canvas}
                     </div>
                     <div className="col-lg-3">
