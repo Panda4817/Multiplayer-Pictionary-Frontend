@@ -84,7 +84,7 @@ const Join = ({ location }) => {
                                 title="Type in a name that will be visible to others. Max length is 12 characters :)"
                                 maxLength="12"
                                 required
-                                onChange={(event) => setName(event.target.value)}
+                                onChange={(event) => setName(event.target.value.trim().toLowerCase())}
                             />
                             <label htmlFor="id_username">Username:</label>
                         </div>
@@ -99,7 +99,7 @@ const Join = ({ location }) => {
                                 title="Type in a room name. Could be one that is already created and you are joining or a brand new room. Max length is 150 characters"
                                 maxLength="150"
                                 required
-                                onChange={(event) => setRoom(event.target.value)}
+                                onChange={(event) => setRoom(event.target.value.trim().toLowerCase())}
                             />
                             <label htmlFor="id_room">Room:</label>
                         </div>
