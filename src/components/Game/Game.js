@@ -36,6 +36,7 @@ const Game = ({ location }) => {
     const [spinner, setSpinner] = useState(false)
     const [guessCorrect, setGuessCorrect] = useState(false)
 
+
     // Chat variables
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
@@ -169,6 +170,8 @@ const Game = ({ location }) => {
         })
     }, [gameOver])
 
+    
+
     // Handles resetting the timer after each turn
     useEffect(() => {
         socket.on('resetTime', () => {
@@ -188,7 +191,7 @@ const Game = ({ location }) => {
         socket.on('spinner', () => {
             setSpinner(true)
         })
-    }, [spinner])
+    })
 
     // Handles receiving messages in the chat
     useEffect(() => {
@@ -226,6 +229,7 @@ const Game = ({ location }) => {
     useEffect(() => {
         socket.on('reset', () => {
             setGameOver(false)
+            setSpinner(false)
             setColour("#000000")
             setLineWidth(5)
         })
@@ -248,6 +252,7 @@ const Game = ({ location }) => {
     // Function to start the game and move to the game room
     const gameStart = () => {
         setGameOver(false)
+        setSpinner(false)
         setWaiting(false)
         setColour("#000000")
         setLineWidth(5)
@@ -327,6 +332,7 @@ const Game = ({ location }) => {
                 round={round} //pass the round number to game room to display
                 setReset={setReset} //pass the setReset variable so canvas can reset at the same time the turn ends
                 spinner={spinner} //pass the spinner variable that determines if the spinner should be shown
+                setSpinner={setSpinner}
                 guessCorrect={guessCorrect} // Change canvas border colour to visually tell you if the guess was right
                 controls={
                     <Controls
@@ -371,6 +377,7 @@ const Game = ({ location }) => {
             <PostGame
                 participants={participants} //pass player data to display
                 onClick={gameStart} //pass function to start the game again if clicked
+                name={name}
             />
         )
     }

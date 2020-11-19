@@ -1,69 +1,68 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './PostGame.css'
 import Modal from '../Modal/Modal'
 
 // Component to display post-game page
-const PostGame = ({ participants, onClick }) => {
+const PostGame = ({ participants, onClick, name }) => {
     const [error, setError] = useState('')
-
-    // find winner(s)
-    let winners = []
-    let max = 0
-    for (var i = 0; i < participants.length; i++) {
-        if (participants[i].points >= max) {
-            if (participants[i].points > max) {
-                winners.length = 0
-                max = participants[i].points
-            }
-            winners.push(participants[i])
-        }
-    }
-
-    // sort losers
-    let sortedList = participants.sort(function (a, b) { return b.points - a.points })
-    let losers = sortedList.filter(user => {
-        for (var i = 0; i < winners.length; i++) {
-            if (winners[i].name === user.name) {
-                return false
-            }
-        }
-        return true
-    })
-
+    const [winners, setWinners] = useState([])
+    const [losers, setLosers] = useState([])
     
-    /*var count = 200;
-    var defaults = {
-        origin: { y: 0.7 }
-    };
 
-    function fire(particleRatio, opts) {
-        window.confetti(Object.assign({}, defaults, opts, {
-            particleCount: Math.floor(count * particleRatio)
-        }));
-    }
+    //handle calculating winners and losers
+    useEffect(() => {
+        // find winner(s)
+        let w = []
+        let max = 0
+        for (let i = 0; i < participants.length; i++) {
+            if (participants[i].points >= max) {
+                if (participants[i].points > max) {
+                    w.length = 0
+                    max = participants[i].points
+                }
+                w.push(participants[i])
+                
+            }
+        }
+        for (let i=0; i<w.length; i++) {
+            if (w[i].name === name) {
+                let duration = 2000
+                let animationEnd = Date.now() + duration
+                let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+    
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min
+                }
+    
+                let interval = setInterval(function() {
+                    let timeLeft = animationEnd - Date.now()
+    
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval)  
+                    }
+    
+                    let particleCount = 300 * (timeLeft / duration)
+                    // since particles fall down, start a bit higher than random
+                    window.confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }))
+                    window.confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }))
+                }, 250);
+                break
+            }
+        }
+        setWinners(() => w)
 
-    fire(0.25, {
-        spread: 26,
-        startVelocity: 55,
-    });
-    fire(0.2, {
-        spread: 60,
-    });
-    fire(0.35, {
-        spread: 100,
-        decay: 0.91,
-        scalar: 0.8
-    });
-    fire(0.1, {
-        spread: 120,
-        startVelocity: 25,
-        decay: 0.92,
-        scalar: 1.2
-    });
-    fire(0.1, {
-        spread: 120,
-        startVelocity: 45,
-    });*/
+        // sort losers
+        const sortedList = participants.sort(function (a, b) { return b.points - a.points })
+        const loss = sortedList.filter((user) => {
+            for (let j = 0; j < w.length; j++) {
+                if (w[j].name === user.name) {
+                    return false
+                }
+            }
+            return true
+        })
+        setLosers(() => loss)
+    }, [])
 
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">

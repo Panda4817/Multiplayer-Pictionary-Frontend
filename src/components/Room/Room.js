@@ -21,6 +21,7 @@ const Room = ({
     round,
     setReset,
     spinner,
+    setSpinner,
     guessCorrect,
     controls,
     canvas,
@@ -31,7 +32,6 @@ const Room = ({
     const TIME = 30
     const [button, setButton] = useState('')
     const [counter, setCounter] = useState(TIME)
-    const [showSpinner, setShowSpinner] = useState(false)
     const [startTime, setStartTime] = useState(new Date().getTime())
 
     // Handle whether to display choice words (only to person chosen to draw) or just the info string
@@ -44,7 +44,7 @@ const Room = ({
                         onClick={event => {
                             event.preventDefault()
                             onClick(word1)
-                            setShowSpinner(true)
+                            setSpinner(true)
                         }
                         }
                     >{word1}</button>
@@ -53,7 +53,7 @@ const Room = ({
                         onClick={event => {
                             event.preventDefault()
                             onClick(word2)
-                            setShowSpinner(true)
+                            setSpinner(true)
                         }
                         }
                     >{word2}</button>
@@ -62,7 +62,7 @@ const Room = ({
                         onClick={event => {
                             event.preventDefault()
                             onClick(word3)
-                            setShowSpinner(true)
+                            setSpinner(true)
                         }
                         }
                     >{word3}</button>
@@ -70,16 +70,8 @@ const Room = ({
             )
         } else {
             setButton(() => '')
-            setShowSpinner(false)
         }
-    }, [myTurn, onClick, choosing, word1, word2, word3])
-
-    // Handle showing of spinner
-    useEffect(() => {
-        if (spinner === true) {
-            setShowSpinner(true)
-        }
-    }, [spinner])
+    }, [myTurn, onClick, choosing, word1, word2, word3, setSpinner])
 
     // Handle the timer logic
     useEffect(() => {
@@ -89,6 +81,7 @@ const Room = ({
             setStartTime(new Date().getTime())
             setReset(true)
             setResetTime(false)
+            setSpinner(false)
         // Count down when in turn
         } else if (choosing === false && counter > 0) {
             const t = setTimeout(() => {
@@ -115,7 +108,7 @@ const Room = ({
                             {info === '' ? 'Joining an existing game...' : info}
                         </h1>
                     </div>
-                    {showSpinner === true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner mx-auto my-auto col-lg-1 p-1" />) : null}
+                    {spinner === true ? (<FontAwesomeIcon icon={faPencilAlt} className="spinner mx-auto my-auto col-lg-1 p-1" />) : null}
                     <div className="col-lg-3">
                         {button}
                     </div>
