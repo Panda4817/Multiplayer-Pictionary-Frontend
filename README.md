@@ -4,6 +4,9 @@ The frontend for a web application that lets you play pictionary with your frien
 Made using ReactJS.
 
 ## Requirements
+- "@fortawesome/fontawesome-svg-core": "^1.2.30",
+- "@fortawesome/free-solid-svg-icons": "^5.14.0",
+- "@fortawesome/react-fontawesome": "^0.1.11",
 - "axios": "^0.20.0",
 - "bootstrap": "^4.5.2",
 - "query-string": "^6.13.3",
