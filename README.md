@@ -1,5 +1,7 @@
 # Multiplayer Pictionary App FRONTEND
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/53dc6052-f1e9-4fe4-822e-458d30745a8d/deploy-status)](https://app.netlify.com/sites/picto/deploys)
+
 The frontend for a web application that lets you play pictionary with your friends.
 Made using ReactJS.
 
