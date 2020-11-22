@@ -11,9 +11,9 @@ Made using ReactJS.
 - "@fortawesome/react-fontawesome": "^0.1.11",
 - "axios": "^0.20.0",
 - "bootstrap": "^4.5.2",
-- "query-string": "^6.13.3",
-- "react": "^16.13.1",
-- "react-dom": "^16.13.1",
+- "query-string": "^6.13.7",
+- "react": "^16.14.0",
+- "react-dom": "^16.14.0",
 - "react-emoji": "^0.5.0",
 - "react-router-dom": "^5.2.0",
 - "react-scripts": "3.4.3",
@@ -29,4 +29,6 @@ The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
 Make sure server is also started. Repo to server is [Multiplayer-Pictionary-Backend](https://github.com/Panda4817/Multiplayer-Pictionary-Backend).
+
+### front end tests are on the way!
 
