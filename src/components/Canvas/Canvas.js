@@ -241,6 +241,7 @@ const Canvas = ({
         setResize(false)
         setReset(false)
         setUndo(false)
+        // eslint-disable-next-line
     }, [reset, waiting, resize, setReset, canvas, undo, setUndo])
 
     // Handle the resizing of the canvas with view-width changing
@@ -276,7 +277,7 @@ const Canvas = ({
                 data.l
             )
         }
-
+        // eslint-disable-next-line
     }, [data])
 
     // Handles changing brush colour

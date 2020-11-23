@@ -9,6 +9,9 @@ Made using ReactJS.
 - "@fortawesome/fontawesome-svg-core": "^1.2.30",
 - "@fortawesome/free-solid-svg-icons": "^5.14.0",
 - "@fortawesome/react-fontawesome": "^0.1.11",
+- "@testing-library/jest-dom": "^4.2.4",
+- "@testing-library/react": "^9.3.2",
+- "@testing-library/user-event": "^7.1.2",
 - "axios": "^0.20.0",
 - "bootstrap": "^4.5.2",
 - "query-string": "^6.13.7",
@@ -30,5 +33,6 @@ You will also see any lint errors in the console.
 
 Make sure server is also started. Repo to server is [Multiplayer-Pictionary-Backend](https://github.com/Panda4817/Multiplayer-Pictionary-Backend).
 
-### front end tests are on the way!
+### Run `npm test`
+Runs the tests found in *.test.js files.
 

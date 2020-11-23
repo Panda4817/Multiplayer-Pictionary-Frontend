@@ -62,6 +62,7 @@ const PostGame = ({ participants, onClick, name }) => {
             return true
         })
         setLosers(() => loss)
+        // eslint-disable-next-line
     }, [])
 
     return (

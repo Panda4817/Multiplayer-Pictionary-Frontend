@@ -98,7 +98,7 @@ const Room = ({
         }
 
 
-    }, [resetTime, choosing, counter, startTime, setReset, setResetTime])
+    }, [resetTime, choosing, counter, startTime, setReset, setResetTime, setSpinner])
     return (
         <div className="outerContainer d-flex align-items-center min-vh-100">
             <div className="container">
