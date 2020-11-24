@@ -214,6 +214,7 @@ const Canvas = ({
         setWidth(width)
         setContext(canvas.getContext('2d'))
         setCurrent({ 'x': null, 'y': null })
+        setIsDrawing(false)
         // Check for undo button being pressed
         if (undo === true) {
             setLines(lines => lines.slice(0, -10))
