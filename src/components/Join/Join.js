@@ -21,7 +21,8 @@ const Join = ({ location }) => {
         `Username is taken in room ${room}`,
         `Username is too long`,
         `Room name is too long`,
-        `Username and/or room name is empty`
+        `Username and/or room name is empty`,
+        `Ensure username and/or room name is clean`
     ]
     const [error, setError] = useState('')
     const [defaultRoom, setDefaultRoom] = useState('')
