@@ -57,9 +57,13 @@ const Game = ({ location }) => {
 
     // Handles refresh of page, joining and disconnecting of players to game room
     useEffect(() => {
-        const { name, room, avatar } = queryString.parse(location.search)
-        setName(name.trim().toLowerCase())
-        setRoom(room.trim().toLowerCase())
+        let { name, room, avatar } = queryString.parse(location.search)
+        if (name !== undefined && name !== '') {
+            setName(name.trim().toLowerCase())
+        } else { name = ''}
+        if (room !== undefined && room !== '') {
+            setRoom(room.trim().toLowerCase())
+        } else {room = ''}
         if (emojiList.find(hexCode => hexCode === avatar) !== undefined) {
             setAvatar(avatar)
         }

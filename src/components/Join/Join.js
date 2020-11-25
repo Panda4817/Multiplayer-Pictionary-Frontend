@@ -13,9 +13,16 @@ import Modal from '../Modal/Modal'
 
 // Component to render Join page
 const Join = ({ location }) => {
+    // Error lists
     // States to store data filled in the form
     const [name, setName] = useState('')
     const [room, setRoom] = useState('')
+    const errorList = [
+        `Username is taken in room ${room}`,
+        `Username is too long`,
+        `Room name is too long`,
+        `Username and/or room name is empty`
+    ]
     const [error, setError] = useState('')
     const [defaultRoom, setDefaultRoom] = useState('')
     const [avatar, setAvatar] = useState('0x1F600')
@@ -25,9 +32,11 @@ const Join = ({ location }) => {
         // if queries present in url, retrieve them to display
         const { error } = queryString.parse(location.search)
         const { room } = queryString.parse(location.search)
-        setError(error)
         setDefaultRoom(room)
         setRoom(room)
+        if (errorList.find(e => e === error) !== undefined) {
+            setError(error)
+        }
         // A function to get a random room name
         async function fetchData() {
             const response = await axios.get('https://multiplayer-pictionary.herokuapp.com/room')
@@ -38,6 +47,7 @@ const Join = ({ location }) => {
         // Only fetch a new room name if the no room name was found in the url
         if (room === '' || room === undefined) { fetchData() }
         return
+        // eslint-disable-next-line
     }, [error, location.search])
 
     // A function to change the avatar
