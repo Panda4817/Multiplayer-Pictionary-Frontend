@@ -9,6 +9,7 @@ import Input from '../Input/Input'
 import Messages from '../Messages/Messages'
 import PostGame from '../PostGame/PostGame'
 import Controls from '../Controls/Controls'
+import emojiList from '../Avatar/emojiList'
 
 let socket
 
@@ -59,7 +60,9 @@ const Game = ({ location }) => {
         const { name, room, avatar } = queryString.parse(location.search)
         setName(name.trim().toLowerCase())
         setRoom(room.trim().toLowerCase())
-        setAvatar(avatar)
+        if (emojiList.find(hexCode => hexCode === avatar) !== undefined) {
+            setAvatar(avatar)
+        }
         socket = io(ENDPOINT)
         socket.emit('join', { name, room, avatar }, (error) => {
             if (error !== null) {

@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import '../Avatar/Avatar'
 import Avatar from '../Avatar/Avatar'
+import emojiList from '../Avatar/emojiList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import Modal from '../Modal/Modal'
+
 
 // Component to render Join page
 const Join = ({ location }) => {
@@ -40,6 +42,9 @@ const Join = ({ location }) => {
 
     // A function to change the avatar
     const pickEmoji = (unicode) => {
+        if (emojiList.find(hexCode => hexCode === unicode) === undefined) {
+            unicode = ''
+        }
         setAvatar(() => unicode)
         return
     }
