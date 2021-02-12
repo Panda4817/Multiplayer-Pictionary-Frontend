@@ -49,9 +49,9 @@ const Game = ({ location }) => {
     const [lineWidth, setLineWidth] = useState(5)
     const [undo, setUndo] = useState(false)
 
-    // URL of back end hosted on heroku
-    const ENDPOINT = 'https://multiplayer-pictionary.herokuapp.com'
-
+    // URL of back end
+    // Hosted on heroku
+    const ENDPOINT ='https://multiplayer-pictionary.herokuapp.com'
     // Localhost URL used for testing
     //const ENDPOINT = 'http://localhost:5000'
 
@@ -77,7 +77,7 @@ const Game = ({ location }) => {
 
         return () => {
 
-            socket.emit('disconnect')
+            //socket.emit('disconnect') v2 socket-io
             socket.off()
         }
 
