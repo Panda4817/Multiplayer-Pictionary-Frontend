@@ -78,6 +78,7 @@ const Game = ({ location }) => {
         return () => {
 
             //socket.emit('disconnect') v2 socket-io
+            socket.close()
             socket.off()
         }
 
