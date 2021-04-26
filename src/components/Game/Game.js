@@ -53,7 +53,7 @@ const Game = ({ location }) => {
     // Hosted on heroku
     const ENDPOINT ='https://multiplayer-pictionary.herokuapp.com'
     // Localhost URL used for testing
-    //const ENDPOINT = 'http://localhost:5000'
+    // const ENDPOINT = 'http://localhost:5000'
 
     // Handles refresh of page, joining and disconnecting of players to game room
     useEffect(() => {
