@@ -275,8 +275,12 @@ const Game = ({ location }) => {
 	const sendMessage = (event) => {
 		event.preventDefault();
 
+		// Lose focus
 		if (message) {
-			socket.emit("sendMessage", message, () => setMessage(""));
+			event.target.blur();
+			socket.emit("sendMessage", message, () => {
+				setMessage("");
+			});
 		}
 	};
 
