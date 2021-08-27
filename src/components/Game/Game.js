@@ -50,16 +50,14 @@ const Game = ({ location }) => {
 
 	// URL of back end
 	// Hosted on heroku
-	const ENDPOINT =
-		"https://multiplayer-pictionary.herokuapp.com";
+	// const ENDPOINT =
+	//	"https://multiplayer-pictionary.herokuapp.com";
 	// Localhost URL used for testing
-	// const ENDPOINT = "http://localhost:5000";
+	const ENDPOINT = process.env.REACT_APP_SERVER;
 
 	// Handles refresh of page, joining and disconnecting of players to game room
 	useEffect(() => {
-		let { name, room, avatar } = queryString.parse(
-			location.search
-		);
+		let { name, room, avatar } = queryString.parse(location.search);
 		if (name !== undefined && name !== "") {
 			setName(name.trim().toLowerCase());
 		} else {
@@ -70,10 +68,7 @@ const Game = ({ location }) => {
 		} else {
 			room = "";
 		}
-		if (
-			emojiList.find((hexCode) => hexCode === avatar) !==
-			undefined
-		) {
+		if (emojiList.find((hexCode) => hexCode === avatar) !== undefined) {
 			setAvatar(avatar);
 		}
 		socket = io(ENDPOINT);
@@ -135,21 +130,18 @@ const Game = ({ location }) => {
 			setGuessCorrect(false);
 			setMessage(() => "");
 		});
-		socket.on(
-			"choice",
-			({ chosen, word1, word2, word3, round }) => {
-				window.scrollTo(0, 0);
-				setRound(() => round);
-				setChosen(() => chosen);
-				setMyTurn(true);
-				setChoosing(true);
-				setWord1(word1);
-				setWord2(word2);
-				setWord3(word3);
-				setGuessCorrect(false);
-				setMessage(() => "");
-			}
-		);
+		socket.on("choice", ({ chosen, word1, word2, word3, round }) => {
+			window.scrollTo(0, 0);
+			setRound(() => round);
+			setChosen(() => chosen);
+			setMyTurn(true);
+			setChoosing(true);
+			setWord1(word1);
+			setWord2(word2);
+			setWord3(word3);
+			setGuessCorrect(false);
+			setMessage(() => "");
+		});
 	}, [chosen]);
 
 	// Handles the info string that is shown to each player in the game room
@@ -166,18 +158,10 @@ const Game = ({ location }) => {
 		} else if (chosen !== "") {
 			if (choosing === true) {
 				setInfo(
-					() =>
-						chosen["name"][0].toUpperCase() +
-						chosen["name"].slice(1) +
-						" is choosing a word"
+					() => chosen["name"][0].toUpperCase() + chosen["name"].slice(1) + " is choosing a word"
 				);
 			} else {
-				setInfo(
-					() =>
-						chosen["name"][0].toUpperCase() +
-						chosen["name"].slice(1) +
-						" is drawing..."
-				);
+				setInfo(() => chosen["name"][0].toUpperCase() + chosen["name"].slice(1) + " is drawing...");
 			}
 		}
 	}, [choosing, word, myTurn, chosen, waiting]);
@@ -224,9 +208,7 @@ const Game = ({ location }) => {
 			return;
 		}
 		if (messages[len - 1].text.includes("correct")) {
-			setGuessCorrect(() =>
-				messages[len - 1]["user"] === name ? true : false
-			);
+			setGuessCorrect(() => (messages[len - 1]["user"] === name ? true : false));
 		} else {
 			setGuessCorrect(() => false);
 		}
@@ -294,9 +276,7 @@ const Game = ({ location }) => {
 		event.preventDefault();
 
 		if (message) {
-			socket.emit("sendMessage", message, () =>
-				setMessage("")
-			);
+			socket.emit("sendMessage", message, () => setMessage(""));
 		}
 	};
 
@@ -325,9 +305,7 @@ const Game = ({ location }) => {
 	// Handle what to show on the page depending on where the player is- waiting room, game, post-game
 	if (error !== "" && error !== undefined) {
 		window.scrollTo(0, 0);
-		return (
-			<Redirect to={`/join?room=${room}&error=${error}`} />
-		);
+		return <Redirect to={`/join?room=${room}&error=${error}`} />;
 	} else if (waiting === true) {
 		window.scrollTo(0, 0);
 		return (
@@ -383,13 +361,7 @@ const Game = ({ location }) => {
 						setUndo={setUndo} //pass the functions that resets that variable to false (so you don't keep erasing lines)
 					/>
 				}
-				messagesList={
-					<Messages
-						messages={messages}
-						name={name}
-						avatar={avatar}
-					/>
-				}
+				messagesList={<Messages messages={messages} name={name} avatar={avatar} />}
 				input={
 					<Input
 						message={message} //pass the current message to display in the input (used to set input value)
