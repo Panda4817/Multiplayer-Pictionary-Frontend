@@ -24,11 +24,22 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test --coverage",
+		"test": "react-scripts test --coverage --verbose --watchAll",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"**/*.{js,jsx}",
+			"!**/coverage/**",
+			"!**/node_modules/**",
+			"!**/babel.config.js",
+			"!**/jest.setup.js",
+			"!**/setupTests.js",
+			"!**/index.js"
+		]
 	},
 	"browserslist": {
 		"production": [

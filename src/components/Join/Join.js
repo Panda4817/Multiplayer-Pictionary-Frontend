@@ -177,7 +177,14 @@ const Join = ({ location }) => {
 						</div>
 						<Link
 							className="text-decoration-none"
-							onClick={(event) => (!name || !room ? event.preventDefault() : null)}
+							onClick={(event) => {
+								if (!name || !room) {
+									event.preventDefault();
+									setError(`Username and/or room name is empty`);
+								} else {
+									return null;
+								}
+							}}
 							to={`/game?name=${name}&room=${room}&avatar=${avatar}`}
 						>
 							<button className="btn btn-primary btn-lg btn-block" type="submit">
