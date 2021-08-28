@@ -7,7 +7,7 @@ import "../Avatar/Avatar";
 import Avatar from "../Avatar/Avatar";
 import emojiList from "../Avatar/emojiList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faRandom } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../Modal/Modal";
 
 // Component to render Join page
@@ -27,7 +27,8 @@ const Join = ({ location }) => {
 	]);
 	const [error, setError] = useState(obj.error);
 	const [defaultRoom, setDefaultRoom] = useState("");
-	const [avatar, setAvatar] = useState("0x1F600");
+	const [avatar, setAvatar] = useState("");
+	const [index, setIndex] = useState(Math.floor(Math.random() * emojiList.length));
 
 	// Handle getting a random room name
 	useEffect(() => {
@@ -49,7 +50,7 @@ const Join = ({ location }) => {
 		}
 		// A function to get a random room name
 		async function fetchData() {
-			const response = await axios.get("https://multiplayer-pictionary.herokuapp.com/room");
+			const response = await axios.get(process.env.REACT_APP_SERVER + "/room");
 			setDefaultRoom(response.data.room);
 			setRoom(response.data.room);
 			const newErrorList = [
@@ -69,6 +70,12 @@ const Join = ({ location }) => {
 		// eslint-disable-next-line
 	}, [error, location.search]);
 
+	// Remove active from carousel and randomise the index
+	const handleSetIndex = () => {
+		let current = document.querySelector("div[class='carousel-item active']");
+		current.classList.remove("active");
+		setIndex(Math.floor(Math.random() * emojiList.length));
+	};
 	// A function to change the avatar
 	const pickEmoji = (unicode) => {
 		if (emojiList.find((hexCode) => hexCode === unicode) === undefined) {
@@ -76,6 +83,20 @@ const Join = ({ location }) => {
 		}
 		setAvatar(() => unicode);
 		return;
+	};
+	// Set the avatar to the unicode selected using pickEmoji function
+	useEffect(() => {
+		pickEmoji(emojiList[index]);
+	}, [index]);
+
+	// Function to get the active emoji and set the avatar
+	// Added a time out to allow the carousal to refresh and add active attribute
+	const getKey = () => {
+		setTimeout(() => {
+			let current = document.querySelector("div[class='carousel-item active']");
+			let idParts = current.getAttribute("id").split("_");
+			setIndex(idParts[1]);
+		}, 10);
 	};
 
 	return (
@@ -111,8 +132,19 @@ const Join = ({ location }) => {
 						<div className="error text-center">
 							<p>{error}</p>
 						</div>
-						<div className="form-label-group">
-							<Avatar pickEmoji={pickEmoji} />
+						<div className="form-label-group row">
+							<div className="col-6">
+								<Avatar index={index} setIndex={getKey} />
+							</div>
+							<div className="col-6">
+								<button
+									className="btn btn-primary btn-lg btn-block  text-center"
+									type="button"
+									onClick={handleSetIndex}
+								>
+									<FontAwesomeIcon icon={faRandom} />
+								</button>
+							</div>
 						</div>
 						<div className="form-label-group">
 							<input

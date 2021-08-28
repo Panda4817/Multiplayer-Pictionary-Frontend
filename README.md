@@ -6,23 +6,23 @@ The frontend for a web application that lets you play pictionary with your frien
 Made using ReactJS.
 
 ## Requirements
-- "@fortawesome/fontawesome-svg-core": "^1.2.30",
-- "@fortawesome/free-solid-svg-icons": "^5.14.0",
-- "@fortawesome/react-fontawesome": "^0.1.11",
-- "@testing-library/jest-dom": "^4.2.4",
-- "@testing-library/react": "^9.3.2",
-- "@testing-library/user-event": "^7.1.2",
-- "axios": "^0.20.0",
-- "bootstrap": "^4.5.2",
-- "query-string": "^6.13.7",
-- "react": "^16.14.0",
-- "react-dom": "^16.14.0",
+- "@fortawesome/fontawesome-svg-core": "^1.2.35",
+- "@fortawesome/free-solid-svg-icons": "^5.15.3",
+- "@fortawesome/react-fontawesome": "^0.1.14",
+- "@testing-library/jest-dom": "^5.12.0",
+- "@testing-library/react": "^11.2.6",
+- "@testing-library/user-event": "^13.1.5",
+- "axios": ">=0.21.1",
+- "bootstrap": "^4.6.0",
+- "query-string": "^7.0.0",
+- "react": "^17.0.2",
+- "react-dom": "^17.0.2",
 - "react-emoji": "^0.5.0",
 - "react-router-dom": "^5.2.0",
-- "react-scripts": "3.4.3",
-- "react-scroll-to-bottom": "^4.0.0",
-- "socket.io-client": "^2.3.0",
-- "ua-parser-js": "^0.7.22"
+- "react-scripts": "4.0.3",
+- "react-scroll-to-bottom": "^4.1.0",
+- "socket.io-client": "^4.0.1",
+- "ua-parser-js": "^0.7.28"
 
 ## Usage
 ### Run `npm start`
