@@ -26,7 +26,6 @@ const Join = ({ location }) => {
 		`Ensure username and/or room name is clean`,
 	]);
 	const [error, setError] = useState(obj.error);
-	const [defaultRoom, setDefaultRoom] = useState("");
 	const [avatar, setAvatar] = useState("");
 	const [index, setIndex] = useState(Math.floor(Math.random() * emojiList.length));
 
@@ -35,7 +34,6 @@ const Join = ({ location }) => {
 		// if queries present in url, retrieve them to display
 		const { error } = queryString.parse(location.search);
 		const { room } = queryString.parse(location.search);
-		setDefaultRoom(room);
 		setRoom(room);
 		const newErrorList = [
 			`Username is taken in room ${room}`,
@@ -51,7 +49,6 @@ const Join = ({ location }) => {
 		// A function to get a random room name
 		async function fetchData() {
 			const response = await axios.get(process.env.REACT_APP_SERVER + "/room");
-			setDefaultRoom(response.data.room);
 			setRoom(response.data.room);
 			const newErrorList = [
 				`Username is taken in room ${response.data.room}`,
@@ -68,7 +65,7 @@ const Join = ({ location }) => {
 		}
 		return;
 		// eslint-disable-next-line
-	}, [error, location.search]);
+	}, [location.search]);
 
 	// Remove active from carousel and randomise the index
 	const handleSetIndex = () => {
@@ -88,6 +85,12 @@ const Join = ({ location }) => {
 	useEffect(() => {
 		pickEmoji(emojiList[index]);
 	}, [index]);
+
+	useEffect(() => {
+		if (name && room && error === "Username and/or room name is empty") {
+			setError("");
+		}
+	}, [room, name, error]);
 
 	// Function to get the active emoji and set the avatar
 	// Added a time out to allow the carousal to refresh and add active attribute
@@ -155,6 +158,7 @@ const Join = ({ location }) => {
 								placeholder="Username"
 								title="Type in a name that will be visible to others. Max length is 12 characters :)"
 								maxLength="12"
+								value={name}
 								required
 								onChange={(event) => setName(event.target.value.trim().toLowerCase())}
 							/>
@@ -167,11 +171,13 @@ const Join = ({ location }) => {
 								id="id_room"
 								className="form-control"
 								placeholder="Room"
-								defaultValue={defaultRoom}
+								value={room}
 								title="Type in a room name. Could be one that is already created and you are joining or a brand new room. Max length is 150 characters"
 								maxLength="150"
 								required
-								onChange={(event) => setRoom(event.target.value.trim().toLowerCase())}
+								onChange={(event) => {
+									setRoom(event.target.value.trim().toLowerCase());
+								}}
 							/>
 							<label htmlFor="id_room">Room:</label>
 						</div>
