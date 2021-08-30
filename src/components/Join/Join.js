@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import "./Join.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "../Avatar/Avatar";
-import Avatar from "../Avatar/Avatar";
 import emojiList from "../Avatar/emojiList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faRandom } from "@fortawesome/free-solid-svg-icons";
-import Modal from "../Modal/Modal";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import HelpModal from "../HelpModal/HelpModal";
+import Form from "../Form/Form";
+
+const standardErrors = [
+	"Username is too long",
+	"Room name is too long",
+	"Username and/or room name is empty",
+	"Ensure username and/or room name is clean",
+];
 
 // Component to render Join page
 const Join = ({ location }) => {
-	// Error lists
-
 	// States to store data filled in the form
 	const obj = queryString.parse(location.search);
 	const [name, setName] = useState("");
-	const [room, setRoom] = useState(obj.room);
+	const [room, setRoom] = useState("");
 	const [errorList, setErrorList] = useState([
 		`Username is taken in room ${room}`,
-		`Username is too long`,
-		`Room name is too long`,
-		`Username and/or room name is empty`,
-		`Ensure username and/or room name is clean`,
+		...standardErrors,
 	]);
 	const [error, setError] = useState(obj.error);
 	const [avatar, setAvatar] = useState("");
@@ -32,31 +33,20 @@ const Join = ({ location }) => {
 	// Handle getting a random room name
 	useEffect(() => {
 		// if queries present in url, retrieve them to display
-		const { error } = queryString.parse(location.search);
-		const { room } = queryString.parse(location.search);
-		setRoom(room);
-		const newErrorList = [
-			`Username is taken in room ${room}`,
-			`Username is too long`,
-			`Room name is too long`,
-			`Username and/or room name is empty`,
-			`Ensure username and/or room name is clean`,
-		];
+		const { error, room } = queryString.parse(location.search);
+		if (room !== undefined) {
+			setRoom(room);
+		}
+		const newErrorList = [`Username is taken in room ${room}`, ...standardErrors];
 		setErrorList(newErrorList);
 		if (errorList.find((e) => e === error) !== undefined) {
 			setError(error);
 		}
 		// A function to get a random room name
 		async function fetchData() {
-			const response = await axios.get(process.env.REACT_APP_SERVER + "/room");
-			setRoom(response.data.room);
-			const newErrorList = [
-				`Username is taken in room ${response.data.room}`,
-				`Username is too long`,
-				`Room name is too long`,
-				`Username and/or room name is empty`,
-				`Ensure username and/or room name is clean`,
-			];
+			const response = (await axios.get(process.env.REACT_APP_SERVER + "/room")).data;
+			setRoom(response.room);
+			const newErrorList = [`Username is taken in room ${response.room}`, ...standardErrors];
 			setErrorList(newErrorList);
 		}
 		// Only fetch a new room name if the no room name was found in the url
@@ -67,12 +57,6 @@ const Join = ({ location }) => {
 		// eslint-disable-next-line
 	}, [location.search]);
 
-	// Remove active from carousel and randomise the index
-	const handleSetIndex = () => {
-		let current = document.querySelector("div[class='carousel-item active']");
-		current.classList.remove("active");
-		setIndex(Math.floor(Math.random() * emojiList.length));
-	};
 	// A function to change the avatar
 	const pickEmoji = (unicode) => {
 		if (emojiList.find((hexCode) => hexCode === unicode) === undefined) {
@@ -92,14 +76,14 @@ const Join = ({ location }) => {
 		}
 	}, [room, name, error]);
 
-	// Function to get the active emoji and set the avatar
-	// Added a time out to allow the carousal to refresh and add active attribute
-	const getKey = () => {
-		setTimeout(() => {
-			let current = document.querySelector("div[class='carousel-item active']");
-			let idParts = current.getAttribute("id").split("_");
-			setIndex(idParts[1]);
-		}, 10);
+	// Handle form submit
+	const handleFormSubmit = (event) => {
+		if (!name || !room) {
+			event.preventDefault();
+			setError(`Username and/or room name is empty`);
+		} else {
+			return null;
+		}
 	};
 
 	return (
@@ -127,77 +111,24 @@ const Join = ({ location }) => {
 						>
 							How to play
 						</button>
-						<Modal />
+						<HelpModal />
 					</div>
 				</div>
 				<div id="form" className="row justify-content-center">
-					<form className="form-signin col-8 line">
-						<div className="error text-center">
-							<p>{error}</p>
-						</div>
-						<div className="form-label-group row">
-							<div className="col-6">
-								<Avatar index={index} setIndex={getKey} />
-							</div>
-							<div className="col-6">
-								<button
-									className="btn btn-primary btn-lg btn-block  text-center"
-									type="button"
-									onClick={handleSetIndex}
-								>
-									<FontAwesomeIcon icon={faRandom} />
-								</button>
-							</div>
-						</div>
-						<div className="form-label-group">
-							<input
-								type="text"
-								name="username"
-								id="id_username"
-								className="form-control"
-								placeholder="Username"
-								title="Type in a name that will be visible to others. Max length is 12 characters :)"
-								maxLength="12"
-								value={name}
-								required
-								onChange={(event) => setName(event.target.value.trim().toLowerCase())}
-							/>
-							<label htmlFor="id_username">Username:</label>
-						</div>
-						<div className="form-label-group">
-							<input
-								type="text"
-								name="room"
-								id="id_room"
-								className="form-control"
-								placeholder="Room"
-								value={room}
-								title="Type in a room name. Could be one that is already created and you are joining or a brand new room. Max length is 150 characters"
-								maxLength="150"
-								required
-								onChange={(event) => {
-									setRoom(event.target.value.trim().toLowerCase());
-								}}
-							/>
-							<label htmlFor="id_room">Room:</label>
-						</div>
-						<Link
-							className="text-decoration-none"
-							onClick={(event) => {
-								if (!name || !room) {
-									event.preventDefault();
-									setError(`Username and/or room name is empty`);
-								} else {
-									return null;
-								}
-							}}
-							to={`/game?name=${name}&room=${room}&avatar=${avatar}`}
-						>
-							<button className="btn btn-primary btn-lg btn-block" type="submit">
-								Join
-							</button>
-						</Link>
-					</form>
+					<Form
+						error={error}
+						index={index}
+						setIndex={setIndex}
+						setName={setName}
+						setRoom={setRoom}
+						disabled={false}
+						handleFormSubmit={handleFormSubmit}
+						buttonText={"Join"}
+						avatar={avatar}
+						name={name}
+						room={room}
+						update={false}
+					/>
 				</div>
 			</div>
 		</div>

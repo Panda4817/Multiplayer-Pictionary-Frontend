@@ -10,14 +10,24 @@ import Messages from "../Messages/Messages";
 import PostGame from "../PostGame/PostGame";
 import Controls from "../Controls/Controls";
 import emojiList from "../Avatar/emojiList";
+import Form from "../Form/Form";
 
 let socket;
+// Waiting room errors that should nor redirect you to the join room
+const errors = [
+	"Username is empty",
+	"Username is too long (max 12 characters)",
+	"Room name cannot be updated in the waiting room (Close the window and join a new room)",
+	"Username cannot be empty",
+	"Username cannot be too long (max 12 characters)",
+];
 
 const Game = ({ location }) => {
 	// Room variables
 	const [name, setName] = useState("");
 	const [room, setRoom] = useState("");
 	const [avatar, setAvatar] = useState("");
+	const [index, setIndex] = useState(-1);
 	const [participants, updateParticipants] = useState([]);
 	const [error, setError] = useState("");
 	const [waiting, setWaiting] = useState(true);
@@ -55,42 +65,81 @@ const Game = ({ location }) => {
 	// Localhost URL used for testing
 	const ENDPOINT = process.env.REACT_APP_SERVER;
 
-	// Handles refresh of page, joining and disconnecting of players to game room
-	useEffect(() => {
-		let { name, room, avatar } = queryString.parse(location.search);
+	const parseLocationData = () => {
+		let { name, room, avatar, update } = queryString.parse(location.search);
 		if (name !== undefined && name !== "") {
 			setName(name.trim().toLowerCase());
 		} else {
+			setName("");
 			name = "";
 		}
 		if (room !== undefined && room !== "") {
 			setRoom(room.trim().toLowerCase());
 		} else {
+			setRoom("");
 			room = "";
 		}
-		if (emojiList.find((hexCode) => hexCode === avatar) !== undefined) {
+		let found;
+		let foundIndex;
+		emojiList.map((hexCode, i) => {
+			if (hexCode === avatar) {
+				found = hexCode;
+				foundIndex = i;
+			}
+			return null;
+		});
+		if (found !== undefined) {
 			setAvatar(avatar);
+			setIndex(foundIndex);
+		} else {
+			setAvatar("");
+			setIndex(-1);
+			avatar = "";
 		}
+		update = update === "true";
+		return { name, room, avatar, update };
+	};
+
+	// Handles refresh of page, joining and disconnecting of players to game room
+	useEffect(() => {
+		let { name, room, avatar, update } = parseLocationData();
 		socket = io(ENDPOINT);
-		socket.emit("join", { name, room, avatar }, (error) => {
+		socket.emit("join", { name, room, avatar, update }, (error) => {
 			if (error !== null) {
 				setError(error);
 			}
 		});
-
+		if (errors.indexOf(error) < 0) {
+			document.getElementById("closeModal").click();
+		}
 		return () => {
 			//socket.emit('disconnect') v2 socket-io
 			socket.close();
 			socket.off();
 		};
+		// eslint-disable-next-line
 	}, [ENDPOINT, location.search]);
+
+	// handle changing avatar
+	useEffect(() => {
+		if (emojiList.find((unicode) => emojiList[index] === unicode) !== undefined) {
+			setAvatar(() => emojiList[index]);
+		}
+	}, [index]);
 
 	// Handles updating player lists, including scores
 	useEffect(() => {
 		socket.on("updateUsers", (users) => {
 			updateParticipants(() => users);
 		});
-	}, [participants]);
+	}, [participants, location.search]);
+
+	// Handle closing modal on waiting room
+	useEffect(() => {
+		socket.on("closeModal", () => {
+			document.getElementById("closeModal").click();
+		});
+	}, [location.search]);
 
 	// Handles changing from waiting room to game room and vice versa
 	useEffect(() => {
@@ -100,7 +149,7 @@ const Game = ({ location }) => {
 		socket.on("waitingTrue", () => {
 			setWaiting(true);
 		});
-	}, [waiting]);
+	}, [waiting, location.search]);
 
 	// Handles turn logic when new word received
 	useEffect(() => {
@@ -118,7 +167,7 @@ const Game = ({ location }) => {
 			setWord(() => word);
 			setMyTurn(true);
 		});
-	}, [word]);
+	}, [word, location.search]);
 
 	// Handles choice of words logic when new person is chosen to draw
 	useEffect(() => {
@@ -142,7 +191,7 @@ const Game = ({ location }) => {
 			setGuessCorrect(false);
 			setMessage(() => "");
 		});
-	}, [chosen]);
+	}, [chosen, location.search]);
 
 	// Handles the info string that is shown to each player in the game room
 	useEffect(() => {
@@ -171,21 +220,21 @@ const Game = ({ location }) => {
 		socket.on("gameOver", () => {
 			setGameOver(true);
 		});
-	}, [gameOver]);
+	}, [gameOver, location.search]);
 
 	// Handles resetting the timer after each turn
 	useEffect(() => {
 		socket.on("resetTime", () => {
 			setResetTime(true);
 		});
-	}, []);
+	}, [location.search]);
 
 	// Handles receiving drawing data
 	useEffect(() => {
 		socket.on("draw_line", function (data) {
 			setData(() => data);
 		});
-	}, [data]);
+	}, [data, location.search]);
 
 	// Handles when spinner is shown in the game room
 	useEffect(() => {
@@ -199,7 +248,7 @@ const Game = ({ location }) => {
 		socket.on("message", (message) => {
 			setMessages((messages) => [...messages, message]);
 		});
-	}, []);
+	}, [location.search]);
 
 	// Set guess correct true for a correct guess (used to change border colour and confetti effect)
 	useEffect(() => {
@@ -240,14 +289,14 @@ const Game = ({ location }) => {
 		socket.on("clear", () => {
 			setReset(true);
 		});
-	}, []);
+	}, [location.search]);
 
 	// Handles undo button for the canvas
 	useEffect(() => {
 		socket.on("undo", () => {
 			setUndo(true);
 		});
-	}, []);
+	}, [location.search]);
 
 	// Function to start the game and move to the game room
 	const gameStart = () => {
@@ -306,8 +355,25 @@ const Game = ({ location }) => {
 		socket.emit("undo", room);
 	};
 
+	// Function to handle when update button pressed for updating player details
+	const updatePlayer = (event) => {
+		if (!name) {
+			event.preventDefault();
+			setError(`Username cannot be empty`);
+			parseLocationData();
+		} else if (name.length > 12) {
+			event.preventDefault();
+			setError(`Username cannot be too long (max 12 characters)`);
+			parseLocationData();
+		} else if (name && room && avatar) {
+			setError("");
+			document.getElementById("closeModal").click();
+		}
+		return null;
+	};
+
 	// Handle what to show on the page depending on where the player is- waiting room, game, post-game
-	if (error !== "" && error !== undefined) {
+	if (error !== "" && error !== undefined && errors.indexOf(error) < 0) {
 		window.scrollTo(0, 0);
 		return <Redirect to={`/join?room=${room}&error=${error}`} />;
 	} else if (waiting === true) {
@@ -318,7 +384,27 @@ const Game = ({ location }) => {
 				name={name}
 				room={room}
 				avatar={avatar}
+				setError={setError}
+				resetPlayer={parseLocationData}
+				setName={setName}
 				onClick={gameStart}
+				form={
+					<Form
+						error={error}
+						setError={setError}
+						index={index}
+						setIndex={setIndex}
+						setName={setName}
+						setRoom={() => {}}
+						disabled={true}
+						handleFormSubmit={updatePlayer}
+						buttonText={"Update"}
+						avatar={avatar}
+						name={name}
+						room={room}
+						update={true}
+					/>
+				}
 			/>
 		);
 	} else if (waiting === false && gameOver === false) {
