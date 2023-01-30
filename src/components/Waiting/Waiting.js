@@ -47,13 +47,13 @@ const Waiting = ({ participants, name, room, avatar, onClick, form, setError, re
 						<p
 							role="button"
 							onClick={() => {
-								navigator.clipboard.writeText(`https://picto.netlify.app/join?room=${room}`);
+								navigator.clipboard.writeText(`https://picto.kmunton.dev/join?room=${room}`);
 								setSuccessCopy(true);
 							}}
 						>
 							<FontAwesomeIcon className="mr-1" icon={faCopy} />
 							Click here to copy and share this link with friends:
-							<u className="ml-1">https://picto.netlify.app/join?room={room}</u>
+							<u className="ml-1">https://picto.kmunton.dev/join?room={room}</u>
 							<span>
 								<br />
 								{successCopy === true ? "Copied!" : null}
