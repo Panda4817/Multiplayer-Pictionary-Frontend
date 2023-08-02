@@ -58,8 +58,8 @@ const Game = ({ location }) => {
 	const [lineWidth, setLineWidth] = useState(5);
 	const [undo, setUndo] = useState(false);
 
-	// URL of back end hosted on AWS
-	const ENDPOINT = process.env.REACT_APP_SERVER;
+	// URL of back end
+	const ENDPOINT = import.meta.env.VITE_APP_SERVER;
 
 	const parseLocationData = () => {
 		let { name, room, avatar, update } = queryString.parse(location.search);

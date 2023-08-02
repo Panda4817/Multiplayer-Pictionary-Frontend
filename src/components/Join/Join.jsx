@@ -44,7 +44,7 @@ const Join = ({ location }) => {
 		}
 		// A function to get a random room name
 		async function fetchData() {
-			const response = (await axios.get(process.env.REACT_APP_SERVER + "/room")).data;
+			const response = (await axios.get(import.meta.env.VITE_APP_SERVER + "/room")).data;
 			setRoom(response.room);
 			const newErrorList = [`Username is taken in room ${response.room}`, ...standardErrors];
 			setErrorList(newErrorList);

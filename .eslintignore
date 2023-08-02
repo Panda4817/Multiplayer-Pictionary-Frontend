@@ -1,0 +1,7 @@
+node-modules/
+build/
+dist/
+coverage/
+public/
+.idea/
+.vs-code/

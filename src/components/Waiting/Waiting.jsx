@@ -4,14 +4,14 @@ import { faCopy, faEdit } from "@fortawesome/free-solid-svg-icons";
 import "./Waiting.css";
 import HelpModal from "../HelpModal/HelpModal";
 import EditPlayerModal from "../EditPlayerModal/EditPlayerModal";
-var parser = require("ua-parser-js");
+import { UAParser } from 'ua-parser-js'
 
 // Component renders waiting room page
 const Waiting = ({ participants, name, room, avatar, onClick, form, setError, resetPlayer }) => {
 	// States to handle page functions (display errors, copy url, display device specific messages)
 	const [waitingError, setWaitingError] = useState("");
 	const [successCopy, setSuccessCopy] = useState(false);
-	const user = parser(navigator.userAgent);
+	const user = new UAParser(navigator.userAgent);
 
 	return (
 		<div className="outerContainer d-flex align-items-center min-vh-100">
@@ -77,7 +77,7 @@ const Waiting = ({ participants, name, room, avatar, onClick, form, setError, re
 				<div className="info row justify-content-center">
 					<div className="col-10 text-center">
 						<p>
-							{user.browser.name === "Safari" || user.browser.name === "Mobile Safari"
+							{user.getBrowser().name === "Safari" || user.getBrowser().name === "Mobile Safari"
 								? "Not seeing everyone in the room? Try refreshing the page."
 								: null}
 						</p>

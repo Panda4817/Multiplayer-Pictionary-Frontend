@@ -12,7 +12,7 @@ import ServiceUnavailableBanner from './components/ServiceUnavailableBanner/Serv
 const App = () => (
     <Router>
         <ScrollToTop />
-        {process.env.REACT_APP_SHOW_BANNER === "true" ? <ServiceUnavailableBanner /> : null}
+        {import.meta.env.VITE_APP_SHOW_BANNER === "true" ? <ServiceUnavailableBanner /> : null}
         <Route path="/" exact component={Join} />
         <Route path="/join" component={Join} />
         <Route path="/game" component={Game} />
